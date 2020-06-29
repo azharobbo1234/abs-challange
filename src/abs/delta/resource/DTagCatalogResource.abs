@@ -1,0 +1,18 @@
+delta DTagCatalogResource;
+uses MCatalogItemResource;
+
+
+modifies interface CatalogItemResource {
+    adds List<CatalogItem> listFilterByTag(ABSHttpRequest request);
+}
+
+modifies class CatalogItemResourceImpl {
+    
+    adds List<CatalogItem> listFilterByTag(ABSHttpRequest request){
+
+        CatalogItemService service = new local CatalogItemServiceImpl();
+        return service.listFilterByTag(request);
+
+    }
+	
+}

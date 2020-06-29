@@ -1,0 +1,363 @@
+{
+	"info": {
+		"_postman_id": "90886433-18b8-4417-94e4-049d9bc3b1fc",
+		"name": "catalog-abs-microservices",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Create Catalog Item",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/catalog/save.abs?name=BuahPostman&description=DariPostman&pictureURL=Postman&price=100000&availableStock=100&imageURL1=abc&imageURL1=abc&size=XL&tagString=Hai&categories=Buahan",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"catalog",
+						"save.abs"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "BuahPostman"
+						},
+						{
+							"key": "description",
+							"value": "DariPostman"
+						},
+						{
+							"key": "pictureURL",
+							"value": "Postman"
+						},
+						{
+							"key": "price",
+							"value": "100000"
+						},
+						{
+							"key": "availableStock",
+							"value": "100"
+						},
+						{
+							"key": "imageURL1",
+							"value": "abc"
+						},
+						{
+							"key": "imageURL1",
+							"value": "abc"
+						},
+						{
+							"key": "size",
+							"value": "XL"
+						},
+						{
+							"key": "tagString",
+							"value": "Hai"
+						},
+						{
+							"key": "categories",
+							"value": "Buahan"
+						}
+					]
+				},
+				"description": "Create Catalog Item by using all its attribute. All Mandatory, one not used will raise error"
+			},
+			"response": []
+		},
+		{
+			"name": "List Catalog Item",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [],
+					"options": {
+						"formdata": {}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8081/api/all-catalog/get-catalog.abs",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"all-catalog",
+						"get-catalog.abs"
+					]
+				},
+				"description": "List Catalog Item for Catalog ABS Microservices"
+			},
+			"response": []
+		},
+		{
+			"name": "Update Catalog ABS",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/catalog/update.abs?name=BuahPostmanEdit&description=DariPostmanEdit&pictureURL=PostmanEdit&price=100000&availableStock=100&imageURL1=abc&imageURL1=abc&size=XL&tagString=Hai&categories=Buahan&id=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"catalog",
+						"update.abs"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "BuahPostmanEdit"
+						},
+						{
+							"key": "description",
+							"value": "DariPostmanEdit"
+						},
+						{
+							"key": "pictureURL",
+							"value": "PostmanEdit"
+						},
+						{
+							"key": "price",
+							"value": "100000"
+						},
+						{
+							"key": "availableStock",
+							"value": "100"
+						},
+						{
+							"key": "imageURL1",
+							"value": "abc"
+						},
+						{
+							"key": "imageURL1",
+							"value": "abc"
+						},
+						{
+							"key": "size",
+							"value": "XL"
+						},
+						{
+							"key": "tagString",
+							"value": "Hai"
+						},
+						{
+							"key": "categories",
+							"value": "Buahan"
+						},
+						{
+							"key": "id",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Detail Catalog By Id",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/catalog-item/get-by-id.abs?id=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"catalog-item",
+						"get-by-id.abs"
+					],
+					"query": [
+						{
+							"key": "id",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Catalog By Name",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/catalog-item/get-by-name.abs?name=Sayur%20Sawi",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"catalog-item",
+						"get-by-name.abs"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "Sayur%20Sawi"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Search Catalog Using Any Available Filtering Column",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/search/search-item.abs?search=1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"search",
+						"search-item.abs"
+					],
+					"query": [
+						{
+							"key": "search",
+							"value": "1"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proper Filter By Categories",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/filter-catalog/get-by-category.abs?category=Tools",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"filter-catalog",
+						"get-by-category.abs"
+					],
+					"query": [
+						{
+							"key": "category",
+							"value": "Tools"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proper Filter By Tag String",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/filter-catalog/get-by-tag.abs?tagString=Benda",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"filter-catalog",
+						"get-by-tag.abs"
+					],
+					"query": [
+						{
+							"key": "tagString",
+							"value": "Benda"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proper Filter By Brand",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/filter-catalog/get-by-brand.abs?brand=4",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"filter-catalog",
+						"get-by-brand.abs"
+					],
+					"query": [
+						{
+							"key": "brand",
+							"value": "4"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Proper Filter By Brand And Type",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8081/api/filter-catalog/get-by-brand-type.abs?brand=5&type=2",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8081",
+					"path": [
+						"api",
+						"filter-catalog",
+						"get-by-brand-type.abs"
+					],
+					"query": [
+						{
+							"key": "brand",
+							"value": "5"
+						},
+						{
+							"key": "type",
+							"value": "2"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}

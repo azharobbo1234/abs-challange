@@ -1,0 +1,17 @@
+delta DBrandCatalogRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeCatalogFilterBrand(String url) {
+
+		String result = case url {
+        
+            "/api/catalog/filter-by-brand.abs" => "MCatalogItemResource.CatalogItemResourceImpl@listFilterByBrand";
+            "/api/catalog/filter-by-brand-type.abs" => "MCatalogItemResource.CatalogItemResourceImpl@listFilterByBrandAndType";
+            _ => "";
+        };
+
+        return result;
+    }
+}

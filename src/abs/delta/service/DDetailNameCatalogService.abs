@@ -1,0 +1,17 @@
+delta DDetailNameCatalogService;
+uses MCatalogItemService;
+
+modifies interface CatalogItemService{
+    adds CatalogItem getDetailByName(ABSHttpRequest request);
+}
+
+modifies class CatalogItemServiceImpl {
+    
+    adds CatalogItem getDetailByName(ABSHttpRequest request) {
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+        String name = request.getInput("name");
+
+        return entity.findByName(name);
+    }
+		
+}

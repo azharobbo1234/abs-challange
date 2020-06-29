@@ -1,0 +1,16 @@
+delta DCreateWithCategoryCatalogEntity;
+uses MCatalogItemEntity;
+
+modifies interface CatalogItemEntity {
+    adds CatalogItem addCategoryToCatalogItem(CatalogItem catalogItem, String category);
+}
+
+modifies class CatalogItemEntityImpl {
+
+    adds CatalogItem addCategoryToCatalogItem(CatalogItem catalogItem, String category){
+        catalogItem.setCategories(category);
+
+        return catalogItem;
+    }
+	
+}

@@ -1,0 +1,18 @@
+delta DCategoriesCatalogFilter;
+uses MCatalogItemFilter;
+
+modifies interface CatalogItemFilter {
+    
+	adds Unit setCategories(String categories);
+    adds String getCategories();
+    
+}
+
+modifies class CatalogItemFilterImpl {
+
+	adds String categories = "";
+    
+    adds Unit setCategories(String categories) { this.categories = categories; }
+    adds String getCategories() { return this.categories; }
+    
+}

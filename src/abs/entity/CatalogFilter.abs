@@ -1,0 +1,17 @@
+module MCatalogItemFilter;
+export *;
+
+interface CatalogItemFilter {
+    
+    Int getId();
+    Unit setId(Int id);
+
+}
+
+class CatalogItemFilterImpl implements CatalogItemFilter {
+    Int id = 0;
+
+    Int getId() { return this.id; }
+    Unit setId(Int id) { this.id = id; }
+
+}

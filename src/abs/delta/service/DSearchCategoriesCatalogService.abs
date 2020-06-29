@@ -1,0 +1,10 @@
+delta DSearchCategoriesCatalogService;
+uses MCatalogItemService;
+
+modifies class CatalogItemServiceImpl {
+    
+    modifies CatalogItemFilter setSearchCategories(CatalogItemFilter filter, String searchValue){
+        filter.setCategories(searchValue);
+        return filter;
+    }
+}

@@ -1,0 +1,11 @@
+product CatalogOne (DisplayAllItem, GetById, FilterByCategory, CreateItem, DeleteItem);
+product CatalogMin (DisplayAllItem, GetById);
+product BrandCategoryCatalog (DisplayAllItem, GetById, FilterByBrand, FilterByCategory, CreateItem, DeleteItem);
+product TagCategoryCatalog (DisplayAllItem, GetById, FilterByTag, FilterByCategory, CreateItem, DeleteItem);
+product CompleteFilterCatalog (DisplayAllItem, GetById, FilterByTag, FilterByCategory, FilterByBrand, GetByName);
+product CompleteCatalogApps (DisplayAllItem, GetById, FilterByTag, FilterByCategory, FilterByBrand, GetByName, SearchItem, CreateItem, DeleteItem);
+
+product HipsterShop(DisplayAllItem, GetById, FilterByCategory, SearchItem);
+product SockShop(DisplayAllItem, FilterByCategory, GetById, FilterByTag);
+product SockOnContainer(DisplayAllItem, GetById, GetByName, FilterByBrand, FilterByCategory, SearchItem);
+product StanRobot(DisplayAllItem, GetById, FilterByCategory, SearchItem);

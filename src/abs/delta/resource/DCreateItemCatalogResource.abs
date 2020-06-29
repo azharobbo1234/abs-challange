@@ -1,0 +1,17 @@
+delta DCreateItemCatalogResource;
+uses MCatalogItemResource;
+
+
+modifies interface CatalogItemResource{
+    adds CatalogItem create(ABSHttpRequest request);
+}
+
+modifies class CatalogItemResourceImpl {
+    
+    adds CatalogItem create(ABSHttpRequest request) {
+    	
+        CatalogItemService service = new local CatalogItemServiceImpl();
+        return service.createCatalogItem(request);
+    }
+	
+}

@@ -1,0 +1,72 @@
+delta DSearchCatalogService;
+uses MCatalogItemService;
+
+modifies interface CatalogItemService{
+    adds List<CatalogItem> listSearch(ABSHttpRequest request);
+    adds CatalogItemFilter setupFilterBasedOnSearch(ABSHttpRequest request);
+
+    /* Set Filter Clause Function, Please find better implementation to extract these methods into Delta */
+    adds CatalogItemFilter setSearchBrand(CatalogItemFilter filter, Int searchValue);
+    adds CatalogItemFilter setSearchType(CatalogItemFilter filter, Int searchValue);
+    adds CatalogItemFilter setSearchCategories(CatalogItemFilter filter, String searchValue);
+    adds CatalogItemFilter setSearchTag(CatalogItemFilter filter, String searchValue);
+    adds CatalogItemFilter setSearchId(CatalogItemFilter filter, Int searchValue);
+
+}
+
+modifies class CatalogItemServiceImpl {
+    
+    adds CatalogItemFilter setSearchBrand(CatalogItemFilter filter, Int searchValue){
+        
+        return filter;
+    }
+    adds CatalogItemFilter setSearchType(CatalogItemFilter filter, Int searchValue){
+        
+        return filter;
+    }
+    adds CatalogItemFilter setSearchCategories(CatalogItemFilter filter, String searchValue){
+        
+        return filter;
+    }
+    adds CatalogItemFilter setSearchTag(CatalogItemFilter filter, String searchValue){
+        
+        return filter;
+    }
+    adds CatalogItemFilter setSearchId(CatalogItemFilter filter, Int searchValue){
+        
+        filter.setId(searchValue);
+        return filter;
+    }
+    
+    adds CatalogItemFilter setupFilterBasedOnSearch(ABSHttpRequest request){
+
+        CatalogItemFilter completeFilter = new local CatalogItemFilterImpl();
+        Bool hasKeySearch = request.hasKey("search");
+        Utility utility = new local UtilityImpl();
+        if (hasKeySearch) {
+            
+            String searchStr = request.getInput("search");
+            Int searchInt = utility.stringToInteger(searchStr);
+            
+            CatalogItemFilter addBrandFilter = this.setSearchBrand(completeFilter, searchInt);
+            CatalogItemFilter addTypeFilter = this.setSearchType(addBrandFilter, searchInt);
+            CatalogItemFilter addCategoryFilter = this.setSearchCategories(addTypeFilter, searchStr);
+            CatalogItemFilter addIdFilter = this.setSearchId(addCategoryFilter, searchInt);
+            completeFilter = this.setSearchTag(addIdFilter, searchStr);
+        
+        }
+
+        return completeFilter;
+
+    }
+
+    adds List<CatalogItem> listSearch(ABSHttpRequest request){
+
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+        CatalogItemFilter filter = this.setupFilterBasedOnSearch(request);
+
+        return entity.searchCatalog(filter);
+
+    }
+		
+}

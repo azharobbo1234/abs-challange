@@ -1,0 +1,55 @@
+delta DCreateItemCatalogService;
+uses MCatalogItemService;
+
+modifies interface CatalogItemService{
+    adds CatalogItem createCatalogItem(ABSHttpRequest request);
+    
+
+    /* Set Filter Clause Function, Please find better implementation to extract these methods into Delta */
+
+    adds CatalogItem setTagRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem);
+    adds CatalogItem setCategoryRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem);
+    adds CatalogItem setBrandRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem);
+
+}
+
+modifies class CatalogItemServiceImpl {
+    
+    adds CatalogItem setTagRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem){
+        return baseCatalogItem;
+    }
+    adds CatalogItem setCategoryRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem){
+        return baseCatalogItem;
+    }
+    adds CatalogItem setBrandRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem){
+        return baseCatalogItem;
+    }
+
+    adds CatalogItem createCatalogItem(ABSHttpRequest request) {
+
+        println("Masuk Service");
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+
+        Utility utility = new local UtilityImpl();
+
+        String name = request.getInput("name");
+        String description = request.getInput("description");
+        String priceStr = request.getInput("price");
+        Int price = utility.stringToInteger(priceStr);
+        String pictureURL = request.getInput("pictureURL");
+        String availableStockStr = request.getInput("availableStock");
+        Int availableStock = utility.stringToInteger(availableStockStr);
+
+        CatalogItem baseCatalogItem = entity.createBaseCatalogItem(name, description, price, pictureURL, availableStock);
+        CatalogItem catalogItemWithCategory = this.setCategoryRelatedParameter(request, baseCatalogItem);
+        CatalogItem catalogItemWithTagAttributes = this.setTagRelatedParameter(request, catalogItemWithCategory);
+        CatalogItem completeCatalogItem = this.setBrandRelatedParameter(request, catalogItemWithTagAttributes);
+        println("Kepasang Semua");
+
+        println("Service selesai");
+
+        return entity.saveCatalogItem(completeCatalogItem);
+
+    }
+		
+}

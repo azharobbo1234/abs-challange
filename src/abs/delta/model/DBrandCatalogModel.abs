@@ -1,0 +1,53 @@
+delta DBrandCatalogModel;
+uses MCatalogItemModel;
+
+modifies interface CatalogItem {
+    
+    adds Unit setPictureFilename(String pictureFilename);
+    adds String getPictureFilename();
+
+    adds Unit setCatalogTypeId(Int catalogTypeId);
+    adds Int getCatalogTypeId();
+
+    adds Unit setCatalogBrandId(Int catalogBrandId);
+    adds Int getCatalogBrandId();
+
+    adds Unit setRestockThreshold(Int restockThreshold);
+    adds Int getRestockThreshold();
+
+    adds Unit setMaxRestockThreshold(Int maxRestockThreshold);
+    adds Int getMaxRestockThreshold();
+
+    adds Unit setOnOrder(String onOrder);
+    adds String getOnOrder();
+    
+}
+
+modifies class CatalogItemImpl {
+	
+	adds String pictureFilename = "";
+    adds Int catalogTypeId = 0;
+    adds Int catalogBrandId = 0;
+    adds Int restockThreshold = 0;
+    adds Int maxRestockThreshold = 0;
+    adds String onOrder = "";
+
+    adds Unit setPictureFilename(String pictureFilename) { this.pictureFilename = pictureFilename; }
+	adds String getPictureFilename() { return this.pictureFilename; }
+
+    adds Unit setCatalogTypeId(Int catalogTypeId) { this.catalogTypeId = catalogTypeId; }
+    adds Int getCatalogTypeId() { return this.catalogTypeId; }
+
+    adds Unit setCatalogBrandId(Int catalogBrandId) { this.catalogBrandId = catalogBrandId; }
+    adds Int getCatalogBrandId() { return this.catalogBrandId; }
+
+    adds Unit setRestockThreshold(Int restockThreshold) { this.restockThreshold = restockThreshold; }
+    adds Int getRestockThreshold() { return this.restockThreshold; }
+
+    adds Unit setMaxRestockThreshold(Int maxRestockThreshold) { this.maxRestockThreshold = maxRestockThreshold; }
+    adds Int getMaxRestockThreshold() { return this.maxRestockThreshold; }
+
+    adds Unit setOnOrder(String onOrder) { this.onOrder = onOrder; }
+    adds String getOnOrder() { return this.onOrder; }
+
+}

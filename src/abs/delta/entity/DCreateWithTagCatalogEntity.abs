@@ -1,0 +1,19 @@
+delta DCreateWithTagCatalogEntity;
+uses MCatalogItemEntity;
+
+modifies interface CatalogItemEntity {
+    adds CatalogItem addTagAttributesToCatalogItem(CatalogItem catalogItem, String imageURL1, String imageURL2, String tagString);
+}
+
+modifies class CatalogItemEntityImpl {
+
+    adds CatalogItem addTagAttributesToCatalogItem(CatalogItem catalogItem, String imageURL1, String imageURL2, String tagString){
+        
+        catalogItem.setImageURL1(imageURL1);
+        catalogItem.setImageURL2(imageURL2);
+        catalogItem.setTagString(tagString);
+
+        return catalogItem;
+    }
+	
+}

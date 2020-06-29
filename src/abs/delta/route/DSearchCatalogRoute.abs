@@ -1,0 +1,14 @@
+delta DSearchCatalogRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeSearchCatalog(String url) {
+        String result = case url {
+            
+            "/api/catalog/search-item.abs" => "MCatalogItemResource.CatalogItemResourceImpl@searchCatalog";
+            _ => "";
+        };
+        return result;
+    }
+}

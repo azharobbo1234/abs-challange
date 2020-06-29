@@ -1,0 +1,67 @@
+delta DBrandCatalogEntity;
+uses MCatalogItemEntity;
+
+modifies interface CatalogItemEntity {
+    adds List<CatalogItem> listFilterByBrand(CatalogItemFilter filter);
+    adds List<CatalogItem> listFilterByBrandAndType(CatalogItemFilter filter);
+}
+
+modifies class CatalogItemEntityImpl {
+
+    modifies List<String> whereClauseBrand(CatalogItemFilter filter, List<String> whereClause){
+
+        List<String> updatedWhereClause = Nil;
+        Int brand = filter.getCatalogBrandId();
+
+        if (brand > 0) {
+            String brandStr = toString(brand);
+            String condition = "catalogbrandid = " + brandStr;
+            println("Masuk Service Brand Filter");
+            println(condition);
+            updatedWhereClause = appendright(whereClause, condition);
+        } else{
+            updatedWhereClause = whereClause;
+        }
+
+        return updatedWhereClause;
+
+    }
+
+    modifies List<String> whereClauseType(CatalogItemFilter filter, List<String> whereClause){
+
+        List<String> updatedWhereClause = Nil;
+        Int typeId = filter.getCatalogTypeId();
+
+        if (typeId > 0) {
+            String typeStr = toString(typeId);
+            String condition = "catalogtypeid = " + typeStr;
+            println("Masuk Service Type Filter");
+            println(condition);
+            updatedWhereClause = appendright(whereClause, condition);
+        }
+
+        return updatedWhereClause;
+
+    }
+
+	adds List<CatalogItem> listFilterByBrand(CatalogItemFilter filter){
+        
+        List<String> whereClause = this.whereClauseBrand(filter, Nil);
+
+        String conditions = this.appendAllWhereClause(whereClause);
+
+        return this.findCatalogItems(conditions);
+
+    }
+
+    adds List<CatalogItem> listFilterByBrandAndType(CatalogItemFilter filter){
+        
+        List<String> whereClauseForBrand = this.whereClauseBrand(filter, Nil);
+        List<String> whereClauseForBrandAndType = this.whereClauseType(filter, whereClauseForBrand);
+        String conditions = this.appendAllWhereClause(whereClauseForBrandAndType);
+
+        return this.findCatalogItems(conditions);
+
+    }
+	
+}

@@ -1,0 +1,14 @@
+delta DCategoriesCatalogRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeCatalogFilterCategory(String url) {
+        String result = case url {
+            
+            "/api/catalog/filter-by-category.abs" => "MCatalogItemResource.CatalogItemResourceImpl@listFilterByCategory";
+            _ => "";
+        };
+        return result;
+    }
+}

@@ -1,0 +1,15 @@
+bin/**/*
+**/.classpath
+**/.project
+**/*.log
+/*.jar
+!absdborm-mysql.jar
+!absdborm-postgresql.jar
+dist/**/*
+lib/app.jar
+lib/absserver.jar
+src/abs/repository/*
+src/java/fli/*
+target/**/*
+external/**/*
+tomcat.*/**/*

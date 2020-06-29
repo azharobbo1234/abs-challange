@@ -1,0 +1,32 @@
+module ABS.Framework.SQL;
+export *;
+
+import Utility, UtilityImpl from ABS.Framework.Utility;
+
+interface SQLHelper {
+    String createInStatement(String attribute, String commaSeparatedData);
+}
+
+class SQLHelperImpl implements SQLHelper {
+    String createInStatement(String attribute, String commaSeparatedData) {
+        Utility utility = new local UtilityImpl();
+        List<String> listData = utility.splitString(commaSeparatedData, ",");
+        
+        Int size = length(listData);
+        Int count = 0;
+        String inStatement = "";
+
+        while(count<size) {
+            String condition = nth(listData, count);
+            condition = attribute +" = "+ condition;
+            inStatement = inStatement + condition;
+            count = count +1;
+
+            if (count < size) {
+                inStatement = inStatement + " OR ";
+            }
+        }
+
+        return inStatement;
+    }
+}

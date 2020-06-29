@@ -1,0 +1,32 @@
+delta DCreateItemCatalogEntity;
+uses MCatalogItemEntity;
+
+modifies interface CatalogItemEntity {
+    adds CatalogItem createBaseCatalogItem(String name, String description, Int price, String pictureURL, Int availableStock);
+    adds CatalogItem saveCatalogItem(CatalogItem catalogItem);
+}
+
+modifies class CatalogItemEntityImpl {
+
+    adds CatalogItem createBaseCatalogItem(String name, String description, Int price, String pictureURL, Int availableStock){
+        
+        CatalogItem catalogItem = new local CatalogItemImpl();
+        
+        catalogItem.setName(name);
+        catalogItem.setDescription(description);
+        catalogItem.setPrice(price);
+        catalogItem.setPictureURL(pictureURL);
+        catalogItem.setAvailableStock(availableStock);
+
+        return catalogItem;
+    }
+    
+    adds CatalogItem saveCatalogItem(CatalogItem catalogItem){
+        
+        CatalogItemDb orm = new local CatalogItemDbImpl();
+
+        orm.save(catalogItem);
+        return catalogItem;
+    }
+	
+}

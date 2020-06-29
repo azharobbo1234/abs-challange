@@ -1,0 +1,26 @@
+delta DBrandCatalogResource;
+uses MCatalogItemResource;
+
+
+modifies interface CatalogItemResource{
+    adds List<CatalogItem> listFilterByBrand(ABSHttpRequest request);
+    adds List<CatalogItem> listFilterByBrandAndType(ABSHttpRequest request);
+}
+
+modifies class CatalogItemResourceImpl {
+    
+    adds List<CatalogItem> listFilterByBrand(ABSHttpRequest request){
+
+        CatalogItemService service = new local CatalogItemServiceImpl();
+        return service.listFilterByBrand(request);
+
+    }
+
+    adds List<CatalogItem> listFilterByBrandAndType(ABSHttpRequest request){
+
+        CatalogItemService service = new local CatalogItemServiceImpl();
+        return service.listFilterByBrandAndType(request);
+
+    }
+	
+}

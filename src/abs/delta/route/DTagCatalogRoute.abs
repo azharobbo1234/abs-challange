@@ -1,0 +1,14 @@
+delta DTagCatalogRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeCatalogFilterTag(String url) {
+        String result = case url {
+            
+            "/api/catalog/filter-by-tag.abs" => "MCatalogItemResource.CatalogItemResourceImpl@listFilterByTag";
+            _ => "";
+        };
+        return result;
+    }
+}

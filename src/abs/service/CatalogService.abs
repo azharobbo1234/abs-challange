@@ -1,0 +1,52 @@
+module MCatalogItemService;
+export *;
+
+import CatalogItem, CatalogItemImpl from MCatalogItemModel;
+import CatalogItemEntity, CatalogItemEntityImpl from MCatalogItemEntity;
+import ABSHttpRequest from ABS.Framework.Http;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+import CatalogItemFilter, CatalogItemFilterImpl from MCatalogItemFilter;
+
+interface CatalogItemService {
+    List<CatalogItem> list(ABSHttpRequest request);
+    List<CatalogItem> listFilterById(ABSHttpRequest request);
+    CatalogItem detail(ABSHttpRequest request);
+}
+
+class CatalogItemServiceImpl implements CatalogItemService {
+    
+    List<CatalogItem> listFilterById(ABSHttpRequest request){
+
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+        CatalogItemFilter filter = new local CatalogItemFilterImpl();
+
+        Bool hasKeyId = request.hasKey("id");
+        Utility utility = new local UtilityImpl();
+        
+        if (hasKeyId) {
+            String idStr = request.getInput("id");
+            Int id = utility.stringToInteger(idStr);
+            filter.setId(id);
+        }
+
+        return entity.listFilterById(filter);
+
+
+    }
+
+    List<CatalogItem> list(ABSHttpRequest request) {
+        
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+
+        return entity.findAllCatalogItem();
+    }
+
+    CatalogItem detail(ABSHttpRequest request) {
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+        String id = request.getInput("id");
+
+        return entity.findById(id);
+        
+    }
+
+}

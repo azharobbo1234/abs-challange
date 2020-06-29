@@ -1,0 +1,71 @@
+[
+    {
+        "name": "Catalog",
+        "mandatory": true,
+        "children": [
+            {
+                "name": "DisplayCatalog",
+                "mandatory": true,
+                "children": [
+                    {
+                        "name": "DisplayAllItem",
+                        "mandatory": true,
+                        "children": []
+                    },
+                    {
+                        "name": "FilterCatalog",
+                        "mandatory": false,
+                        "children": [
+                            {
+                                "name": "FilterByBrand",
+                                "mandatory": false,
+                                "children": []
+                            },
+                            {
+                                "name": "FilterByCategory",
+                                "mandatory": true,
+                                "children": []
+                            },
+                            {
+                                "name": "FilterByTag",
+                                "mandatory": false,
+                                "children": []
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "name": "CatalogItem",
+                "mandatory": true,
+                "children": [
+                    {
+                        "name": "GetById",
+                        "mandatory": true,
+                        "children": []
+                    },
+                    {
+                        "name": "GetByName",
+                        "mandatory": false,
+                        "children": []
+                    },
+                    {
+                        "name": "CreateItem",
+                        "mandatory": false,
+                        "children": []
+                    },
+                    {
+                        "name": "DeleteItem",
+                        "mandatory": false,
+                        "children": []
+                    }
+                ]
+            },
+            {
+                "name": "SearchItem",
+                "mandatory": false,
+                "children": []
+            }
+        ]
+    }
+]

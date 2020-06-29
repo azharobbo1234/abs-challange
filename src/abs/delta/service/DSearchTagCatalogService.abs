@@ -1,0 +1,10 @@
+delta DSearchTagCatalogService;
+uses MCatalogItemService;
+
+modifies class CatalogItemServiceImpl {
+    
+    modifies CatalogItemFilter setSearchTag(CatalogItemFilter filter, String searchValue){
+        filter.setTagString(searchValue);
+        return filter;
+    }
+}

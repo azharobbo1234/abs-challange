@@ -1,0 +1,33 @@
+/* feature model docs:
+http://abs-models.org/chapter/8-product-line-modeling-with-abs/
+http://abs-models.org/documentation/manual/#-feature-modelling
+https://ac.els-cdn.com/S0167642310001899/1-s2.0-S0167642310001899-main.pdf?_tid=c390826d-2579-4eae-9cc4-47a55d8e2b55&acdnat=1550940497_73776f2549d01a827fd4185a1614484c
+allof = and
+oneof = xor
+someof = or (not exist in ABS, but in MUTVL)
+*/
+root Catalog {
+    group allof {
+        DisplayCatalog {
+            group allof {
+                DisplayAllItem,
+                opt FilterCatalog {
+                    group [1..*] {
+                        FilterByCategory,
+                        FilterByBrand,
+                        FilterByTag
+                    }
+                }
+            }
+        },
+        CatalogItem {
+            group allof {
+                GetById,
+                opt GetByName,
+                opt CreateItem,
+                opt DeleteItem
+            }
+        },
+        opt SearchItem
+    }
+}

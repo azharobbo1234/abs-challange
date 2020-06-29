@@ -1,0 +1,183 @@
+module ABS.Framework.Utility;
+
+export Utility, UtilityImpl;
+
+interface Utility {
+    Int stringToInteger(String s);
+    Rat stringToRational(String s);
+    Bool stringToBoolean(String s);
+    List<String> splitString(String s, String separator);
+}
+
+class UtilityImpl implements Utility {
+    Int stringToInteger(String s) {
+        String inputString = s;
+        Int length = strlen(inputString);
+        Int output = 0;
+
+        if (length < 0) {
+            throw PatternMatchFailException;
+        }
+        else {
+            Bool negative = this.isNegativeNumber(inputString);
+
+            if (negative) {
+                inputString = substr(inputString, 1, length - 1);
+            }
+
+            length = strlen(inputString);
+            Int idx = 0;
+            Int tens = this.power(1, length);
+
+            while (idx < length) {
+                // Parse the first digit
+                String ch = substr(inputString, 0, 1);
+                Int digit = this.parseDigit(ch);
+
+                // Multiply the digit to its "tens" values
+                Int temp = digit * tens;
+
+                // And add it to the output
+                output = output + temp;
+
+                // Move to the next digit
+                idx = idx + 1;
+                tens = tens / 10;
+
+                // Reduce string to exclude parsed first digit
+                Int remainingLength = strlen(inputString);
+                inputString = substr(inputString, 1, remainingLength - 1);
+            }
+
+            if (negative) {
+                output = output * -1;
+            }
+        }
+
+        return output;
+    }
+
+    Rat stringToRational(String s) {
+        String inputString = s;
+        Int length = strlen(inputString);
+        Rat output = 0;
+
+        if (length < 1) {
+            output = -1; // TODO: Should raise an exception
+        }
+        else {
+            Bool negative = this.isNegativeNumber(inputString);
+
+            if (negative) {
+                inputString = substr(inputString, 1, length - 1);
+            }
+
+            length = strlen(inputString);
+            Int idx = 0;
+            Int tens = this.power(1, length);
+
+            while (idx < length) {
+                // Parse the first digit
+                String ch = substr(inputString, 0, 1);
+                Int digit = this.parseDigit(ch);
+
+                // Multiply the digit to its "tens" values
+                Int temp = digit * tens;
+
+                // And add it to the output
+                output = output + temp;
+
+                // Move to the next digit
+                idx = idx + 1;
+                tens = tens / 10;
+
+                // Reduce string to exclude parsed first digit
+                Int remainingLength = strlen(inputString);
+                inputString = substr(inputString, 1, remainingLength - 1);
+            }
+
+            if (negative) {
+                output = output * -1;
+            }
+        }
+
+        return output;
+    }
+
+    Bool stringToBoolean(String s) {
+        return s == "True" || s == "true";
+    }
+
+    List<String> splitString(String s, String separator) {
+        List<String> listWord = Nil;
+        Int lenData = strlen(s);
+        Int count = 0;
+        Int last = 0;
+
+        while(count < lenData) {
+            String chr = substr(s,count,1);
+            if(chr == separator) {
+                Int startWord = 0;
+                if (last > 0) {
+                    startWord = last + 1;
+                }
+                Int lenWord = count - startWord;
+                String word = substr(s,startWord,lenWord);
+                listWord = appendright(listWord,word);
+                last = count;
+            }
+            count = count +1;
+            if (count == lenData) {
+                Int startWord = 0;
+                if (last > 0) {
+                    startWord = last + 1;
+                }
+                Int lenWord = count - startWord;
+                String word = substr(s,startWord,lenWord);
+                listWord = appendright(listWord,word);
+            }
+        }
+        return listWord;
+    }
+
+    Int power(Int a, Int b) {
+        Int result = a;
+        Int n = b;
+
+        while (n > 1) {
+            result = result * 10;
+            n = n - 1;
+        }
+
+        return result;
+    }
+
+    Int parseDigit(String ch) {
+        Int result = case ch {
+            "0" => 0;
+            "1" => 1;
+            "2" => 2;
+            "3" => 3;
+            "4" => 4;
+            "5" => 5;
+            "6" => 6;
+            "7" => 7;
+            "8" => 8;
+            "9" => 9;
+            _ => -1;
+        };
+
+        if (result == -1) {
+            throw PatternMatchFailException;
+        }
+        return result;
+    }
+
+    Bool isNegativeNumber(String s) {
+        Int length = strlen(s);
+        String firstDigit = substr(s, 0, 1);
+        Bool result = False;
+
+        return (firstDigit == "-");
+    }
+}

@@ -1,0 +1,6 @@
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (1000,'applepic.png',10,'Apple','Delicious Red Apple','Fruit', 1, 1);
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (2000,'orangepic.png',10,'Orange','Delicious American Orange','Fruit', 2, 1);
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (3000,'manggopic.png',10,'Manggo','Delicious Sweet Manggo','Fruit', 3, 1);
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (3000,'mustardpic.png',10,'Mustard','Delicious Green Mustard','Vegetable', 4, 1);
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (3000,'butcherknifepic.png',10,'Butcher Knife','To Dismember Big Meat','Tools', 5, 2);
+INSERT INTO public.catalogitemimpl(price,pictureurl,availablestock,name,description,categories, catalogbrandid, catalogtypeid) VALUES (3000,'kitchenknifepic.png',10,'Kitcher Knife','Trusted Sharp Knife','Tools', 5, 2);

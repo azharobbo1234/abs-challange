@@ -1,0 +1,20 @@
+delta DCreateWithTagCatalogService;
+uses MCatalogItemService;
+
+modifies class CatalogItemServiceImpl {
+    
+    modifies CatalogItem setTagRelatedParameter(ABSHttpRequest request, CatalogItem baseCatalogItem){
+
+    	println("Mulai Delta Tag Parameter");
+    	CatalogItemEntity entity = new local CatalogItemEntityImpl();
+
+        String imageURL1 = request.getInput("imageURL1");
+        String imageURL2 = request.getInput("imageURL2");
+        String tagString = request.getInput("tagString");
+        CatalogItem catalogWithTagAttributes = entity.addTagAttributesToCatalogItem(baseCatalogItem, imageURL1, imageURL2, tagString);
+        println("Selesai Delta Tag Parameter");
+        
+        return catalogWithTagAttributes;
+    }
+		
+}

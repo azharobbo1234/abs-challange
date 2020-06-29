@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="ABSMicroservices" default="abs.compile.java" basedir="."
+    xmlns:artifact="antlib:org.apache.maven.artifact.ant">
+
+    <property name="lib" location="lib" />
+    <property name="src" location="src" />
+    <property name="target" location="target" />
+    <property name="external" location="external" />
+
+    <property name="src.abs" location="${src}/abs" />
+    <property name="src.abs.model" location="${src.abs}/model" />
+    <property name="src.abs.repository" location="${src.abs}/repository" />
+    <property name="src.abs.service" location="${src.abs}/service" />
+    <property name="src.abs.resource" location="${src.abs}/resource" />
+    <property name="src.abs.framework" location="${src.abs}/framework" />
+    <property name="src.abs.delta" location="${src.abs}/delta" />
+    <property name="src.abs.controller" location="${src.abs}/controller" />
+
+    <property name="src.java" location="${src}/java" />
+    <property name="src.java.fli" location="${src.java}/fli" />
+    <property name="src.java.self_defined_fli" location="${src.java}/self_defined_fli" />
+
+
+    <property name="src.sql" location="${src}/sql" />
+
+    <property name="target.java.src" location="${target}/java/src" />
+    <property name="target.java.bin" location="${target}/java/bin" />
+    <property name="target.schema" location="${target}/schema/schema.sql" />
+
+    <property name="lib.abs" location="${lib}/absfrontend.jar" />
+    <property name="lib.absbackend" location="${lib}/absbackend.jar" />
+    <property name="lib.orm" location="${lib}/absdborm.jar" />
+
+    <path id="build.abs.classpath">
+        <fileset dir="${lib}"/>
+    </path>
+
+    <!-- Check if absproduct property is set -->
+    <condition property="absproduct.set">
+        <isset property="absproduct"/>
+    </condition>
+
+    <fileset dir="${src.abs}" id="src.abs.files">
+        <include name="**/*.abs" />
+    </fileset>
+
+    <fileset dir="${src.sql}" id="src.sql.files">
+        <include name="**/*.sql" />
+    </fileset>
+
+    <fileset dir="${src.abs.model}" id="src.abs.model.files">
+        <include name="**/*.abs" />
+        <exclude name="**/*Db.abs" />
+    </fileset>
+
+    <pathconvert property="src.abs.fileargs" refid="src.abs.files"
+        pathsep=" " />
+
+    <target name="clean" description="Removes all generated files">
+        <delete failonerror="false" includeemptydirs="true">
+            <fileset dir="${target}" />
+            <fileset dir="${src.abs.repository}" />
+            <fileset dir="${src.java.fli}"/>
+            <dirset dir="${src.abs.model}" includes="gen_*" />
+        </delete>
+    </target>
+
+    <target name="prepare" depends="clean">
+        <mkdir dir="${src.abs.repository}" />
+        <mkdir dir="${src.java.fli}" />
+        <mkdir dir="${target.java.src}" />
+        <mkdir dir="${target.java.bin}" />
+        <mkdir dir="${target.schema}" />
+    </target>
+
+    <target name="abs.typecheck" depends="prepare">
+        <pathconvert property="src.abs.typecheck.fileargs" refid="src.abs.files"
+            pathsep=" " />
+        <java classname="abs.frontend.parser.Main" fork="true"
+            failonerror="true" classpathref="build.abs.classpath">
+            <arg line="${src.abs.typecheck.fileargs}" />
+        </java>
+    </target>
+
+    <target name="abs.generate.fli" description="Generates Fli code"
+        depends="clean,prepare" if="absproduct.set">
+        <pathconvert property="src.abs.generate.fli.fileargs" refid="src.abs.model.files"
+            pathsep=" " />
+        <java classname="abs.backend.absframeworks.GenerateFLIModel" fork="true"
+            failonerror="true" classpathref="build.abs.classpath">
+            <arg line="${src.abs.generate.fli.fileargs}" />
+        </java>
+        <copy todir="${src.java.fli}" verbose="false">
+            <fileset dir="gen_java_db_fli"/>
+        </copy>
+        <copy todir="${src.abs.repository}" verbose="false">
+            <fileset dir="gen_abs_db_fli"/>
+        </copy>
+        <delete dir="gen_java_db_fli" failonerror="true" includeemptydirs="true">
+        </delete>
+        <delete dir="gen_abs_db_fli" failonerror="true" includeemptydirs="true">
+        </delete>
+    </target>
+
+    <target name="abs.generate.schema" description="Generates Schema code"
+        depends="clean,prepare,abs.generate.fli" if="absproduct.set">
+        <pathconvert property="src.abs.generate.schema.fileargs" refid="src.abs.files"
+            pathsep=" " />
+        <java classname="abs.backend.dbschema.GenerateDBSchema" fork="true"
+            failonerror="true" classpathref="build.abs.classpath">
+            <arg line="${src.abs.generate.schema.fileargs}" />
+            <arg value="-product=${absproduct}" />
+            <arg value="-o" />
+            <arg value="${target.schema}" />
+        </java>
+        <!-- Replace "description VARCHAR(100) DEFAULT ''," description VARCHAR(2000) DEFAULT ''," for longer description field -->
+        <replaceregexp file="${target.schema}"
+            match="id(\s*)INT(\s*)DEFAULT(\s*)0,"
+            replace="id SERIAL,"
+            byline="true"/>
+        <replaceregexp file="${target.schema}"
+            match="description(\s*)VARCHAR\(100\)(\s*)DEFAULT '',"
+            replace="description VARCHAR(2000) DEFAULT '',"
+            byline="true"/>
+        <replaceregexp file="${target.schema}"
+            match="CREATE(\s+)TABLE(\s+)(.+)?DetailImpl(\s+)\((.|\n)+?(\);)"
+            replace=""
+            flags="g"
+            byline="false"/>
+    </target>
+
+    <target name="create.schema" description="Create Schema to Database"
+        depends="clean,prepare,abs.generate.schema" if="absproduct.set">
+        <pathconvert property="src.create.schema.fileargs" refid="src.sql.files"
+            pathsep=" " />
+        <java classname="com.fmse.abs.orm.AbsDbOrm" fork="true"
+            failonerror="true" classpathref="build.abs.classpath">
+            <arg line="${target.schema}" />
+            <arg line="${src.create.schema.fileargs}" />
+        </java>
+    </target>
+
+    <target name="abs.generate.java" description="Generates Java code"
+        depends="clean,prepare,create.schema" if="absproduct.set">
+        <pathconvert property="src.abs.generate.java.fileargs" refid="src.abs.files"
+            pathsep=" " />
+        <java classname="abs.backend.java.JavaBackend" fork="true"
+            failonerror="true" classpathref="build.abs.classpath">
+            <arg line="${src.abs.generate.java.fileargs}" />
+            <arg value="-sourceonly" />
+            <arg value="-d" />
+            <arg value="${target.java.src}" />
+            <arg value="-product=${absproduct}" />
+        </java>
+
+        <copy todir="${target.java.src}" verbose="false">
+            <fileset dir="${src.java}"/>
+            <fileset dir="${src.java.self_defined_fli}"/>
+        </copy>
+    </target>
+
+    <target name="abs.compile.java" depends="abs.generate.java">
+        <javac classpathref="build.abs.classpath" srcdir="${target.java.src}"
+            destdir="${target.java.bin}" />
+    </target>
+
+    <target name="abs.deploy" depends="abs.compile.java">
+        <mkdir dir="${external}" />
+        <jar destfile="${absproduct}.jar" basedir="${target.java.bin}">
+        <zipgroupfileset dir="lib" includes="*" />
+            <manifest>
+                <attribute name="Main-Class" value="com.rse.absserver.ABSServer"/>
+                <attribute name="Class-Path" value="${build.abs.classpath}"/>
+            </manifest>
+        </jar>
+    </target>
+
+    <target name="clean.source">
+        <delete includeEmptyDirs="true">
+            <fileset dir="." excludes="${absproduct}.jar,run.*,*.properties"/>
+        </delete>
+    </target>
+</project>

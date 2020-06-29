@@ -1,0 +1,19 @@
+delta DDeleteItemCatalogService;
+uses MCatalogItemService;
+
+modifies interface CatalogItemService{
+    adds List<CatalogItem> deleteCatalogItem(ABSHttpRequest request);
+}
+
+modifies class CatalogItemServiceImpl {
+    
+    adds List<CatalogItem> deleteCatalogItem(ABSHttpRequest request){
+
+        CatalogItemEntity entity = new local CatalogItemEntityImpl();
+        String id = request.getInput("id");
+
+        return entity.deleteCatalogItem(id);
+    
+    }
+		
+}

@@ -1,0 +1,26 @@
+module ABS.Framework.Http;
+export *;
+
+interface ABSHttpRequest {
+    String getInput(String key);
+    String getRequestProperty(String key);
+    Bool hasKey(String key);
+}
+
+class ABSHttpRequestImpl(Map<String, String> requestInput, Map<String, String> requestProperty) implements ABSHttpRequest {
+    String getInput(String key) {
+        String value = fromJust(lookup(requestInput, key));
+        return value;
+    }
+
+    String getRequestProperty(String key) {
+        String value = fromJust(lookup(requestProperty, key));
+        return value;
+    }
+
+    Bool hasKey(String key) {
+        Maybe<String> maybeKey = lookup(requestInput, key);
+        Bool hasKey = isJust(maybeKey);
+        return hasKey;
+    }
+}

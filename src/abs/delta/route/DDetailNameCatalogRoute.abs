@@ -1,0 +1,15 @@
+delta DDetailNameCatalogRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeGetDetail(String url) {
+        String result = case url {
+            
+            "/api/catalog/get-by-id.abs" => "MCatalogItemResource.CatalogItemResourceImpl@detail";
+            "/api/catalog/get-by-name.abs" => "MCatalogItemResource.CatalogItemResourceImpl@getDetailByName";
+            _ => "";
+        };
+        return result;
+    }
+}
