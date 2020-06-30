@@ -1,0 +1,45 @@
+module MAccountModel;
+export *;
+import * from MCustomerModel;
+
+interface Account {
+	Int deposit(Int x); 
+	Int withdraw(Int y);
+
+	Int getId();
+	Int getBalance(); 
+	Int getCustomerId();
+	String getRekening();
+
+	Unit setId(Int id);
+	Unit setBalance(Int balance);
+	Unit setRekening(String rekening);
+	Unit setCustomerId(Int customerId);
+}
+
+class AccountImpl implements Account {
+	[PK]Int id = 0;
+	Int balance = 0;
+	String rekening = "";
+	Int customerId = 0;
+
+	Unit setId(Int x){ this.id = x;}
+	Unit setBalance(Int x){ this.balance = x;}
+	Unit setRekening(String rekening){ this.rekening = rekening;}
+	Unit setCustomerId(Int customerId){ this.customerId = customerId; }
+
+	Int getId(){ return this.id;}
+	Int getBalance(){ return this.balance; }
+	String getRekening(){ return this.rekening; }
+	Int getCustomerId(){ return this.customerId; }
+
+	Int deposit(Int x){ 
+		this.balance = this.balance + x; 
+		return balance;
+	}
+
+	Int withdraw(Int y){
+		if (this.balance - y >= 0){ this.balance = this.balance - y;}
+		return balance;
+	}
+}
