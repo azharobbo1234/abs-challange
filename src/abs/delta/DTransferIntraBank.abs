@@ -1,0 +1,8 @@
+delta DTransferIntraBank(Int amount, Int fee)
+uses MAccountModel;
+
+AccountImpl from = new AccountImpl();
+AccountImpl to = new AccountImpl();
+
+from.withdraw(amount+fee)
+to.deposit(amount)
