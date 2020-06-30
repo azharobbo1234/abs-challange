@@ -1,8 +1,9 @@
-delta DTransferInterBank(Int amount)
+delta DTransferInterBank;
 uses MAccountModel;
 
-AccountImpl from = new AccountImpl();
-AccountImpl to = new AccountImpl();
-
-from.withdraw(amount)
-to.deposit(amount)
+modifies class AccountImpl {
+    adds transfer(AccountImpl other, Int amount) {
+        withdraw(amount)
+        other.deposit(amount)
+    }
+}
