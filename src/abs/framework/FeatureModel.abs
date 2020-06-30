@@ -4,11 +4,19 @@ root Account {
 			group oneof {	
 				Check {ifin: Type.i == 0;},
 				Save {ifin: Type.i > 0; exclude: Overdraft;}
-				}
+			}
 			Int i;
-			},
+		},
 		TransferIntraBank // receiver and sender have same House bank
-		TransferInterBank // receiver and sender have different House bank
+		TransferInterBank { // receiver and sender have different House bank
+			group oneof {
+				Type1 {from in ["BRI", "BNI"] && to in ["BRI", "BNI"]},
+				Type2 {from in ["Mandiri", "BNI"] && to in ["Mandiri", "BNI"]},
+				Type3 {from in ["BRI", "BNI", "Mandiri"] && to in ["BRI", "BNI", "Mandiri"]}
+			}
+			String from;
+			String to;
+		} 
 		opt TransferVirtualAccount
 		opt CreditCard
 		opt Fee {Int amount in [0..5];},
