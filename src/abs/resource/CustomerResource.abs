@@ -1,0 +1,74 @@
+module MCustomerResource;
+import Customer, CustomerImpl from MCustomerModel;
+import CustomerDb, CustomerDbImpl from MCustomerDbImpl;
+import ABSHttpRequest from ABS.Framework.Http;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+import CustomerService, CustomerServiceImpl from MCustomerService;
+
+interface CustomerResource
+{
+	List<Customer> list(ABSHttpRequest request);
+	Customer retrieve(ABSHttpRequest request);
+	Customer update(ABSHttpRequest request);
+	Customer create(ABSHttpRequest request);
+	Unit delete(ABSHttpRequest request);
+}
+
+class CustomerResourceImpl implements CustomerResource
+{
+    List<Customer> list(ABSHttpRequest request)
+	{
+		CustomerService customerService = new local CustomerServiceImpl();
+		List<Customer> dataModel = customerService.list();
+		return dataModel;
+	}
+
+	Customer retrieve(ABSHttpRequest request)
+	{
+		
+		CustomerService customerService = new local CustomerServiceImpl();
+		String id = request.getInput("id");
+		Customer c = customerService.retrieve(id);
+		return c;
+	}
+
+	
+	Customer create(ABSHttpRequest request)
+	{ 
+		CustomerService customerService = new local CustomerServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String name = request.getInput("name");
+		String email = request.getInput("email");
+		String phone = request.getInput("phone");
+		String address = request.getInput("address");
+
+		Customer c = customerService.create(name,email,phone,address);
+
+		return c;
+	}
+
+	Customer update(ABSHttpRequest request)
+	{ 
+		CustomerService customerService = new local CustomerServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String id = request.getInput("id");
+		String name = request.getInput("name");
+		String email = request.getInput("email");
+		String phone = request.getInput("phone");
+		String address = request.getInput("address");
+
+		Customer c = customerService.update(id,name,email,phone,address);
+
+		return c;
+	}
+
+	Unit delete(ABSHttpRequest request)
+	{ 
+		CustomerService customerService = new local CustomerServiceImpl();
+
+		String id = request.getInput("id");
+		customerService.delete(id);
+	}
+}

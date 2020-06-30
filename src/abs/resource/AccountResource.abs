@@ -1,0 +1,110 @@
+module MAccountResource;
+import Account, AccountImpl from MAccountModel;
+import AccountDb, AccountDbImpl from MAccountDbImpl;
+import ABSHttpRequest from ABS.Framework.Http;
+import AccountService, AccountServiceImpl from MAccountService;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+
+interface AccountResource
+{
+	List<Account> list(ABSHttpRequest request);
+	Account retrieve(ABSHttpRequest request);
+	Account update(ABSHttpRequest request);
+	Account create(ABSHttpRequest request);
+	Unit delete(ABSHttpRequest request);
+}
+
+class AccountResourceImpl implements AccountResource
+{
+    List<Account> list(ABSHttpRequest request)
+	{
+		AccountService accountService = new local AccountServiceImpl();
+		List<Account> accounts = accountService.list();
+		return accounts;
+	}
+
+	Account create(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String b = request.getInput("balance");
+		Int balance = utility.stringToInteger(b);
+
+		String rekening = request.getInput("rekening");
+
+		String cId = request.getInput("customerId");
+		Int customerId = utility.stringToInteger(cId);
+
+		Account acc = accountService.create(balance,rekening,customerId);
+
+		return acc;
+	}
+
+	Account retrieve(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+
+		String id= request.getInput("id");
+		Account acc = accountService.retrieve(id);
+
+		return acc;
+	}
+
+	Account update(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String id = request.getInput("id");
+
+		String b = request.getInput("balance");
+		Int balance = utility.stringToInteger(b);
+
+		String rekening = request.getInput("rekening");
+
+		String cId = request.getInput("customerId");
+		Int customerId = utility.stringToInteger(cId);
+
+		Account acc = accountService.update(id,balance,rekening,customerId);
+
+		return acc;
+	}
+
+	Unit delete(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+
+		String id = request.getInput("id");
+		accountService.delete(id);
+	}
+
+	Account withdraw(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String amnt = request.getInput("amount");
+		Int amount = utility.stringToInteger(amnt);
+
+		String id= request.getInput("id");
+		Account acc = accountService.withdraw(id,amount);
+
+		return acc;
+	}
+
+	Account deposit(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String amnt = request.getInput("amount");
+		Int amount = utility.stringToInteger(amnt);
+
+		String id= request.getInput("id");
+		Account acc = accountService.deposit(id,amount);
+
+		return acc;
+	}
+
+}
