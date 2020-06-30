@@ -7,8 +7,13 @@ root Account {
 				}
 			Int i;
 			},
+		TransferIntraBank // receiver and sender have same House bank
+		TransferInterBank // receiver and sender have different House bank
+		opt TransferVirtualAccount
+		opt CreditCard
 		opt Fee {Int amount in [0..5];},
 		opt Overdraft,
 		opt House	
+
 	}
 }
