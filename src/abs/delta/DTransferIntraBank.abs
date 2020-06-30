@@ -2,8 +2,14 @@ delta DTransferIntraBank;
 uses MAccountModel;
 
 modifies class AccountImpl {
-    adds transferIntra(AccountImpl other, Int amount, Int fee) {
-        withdraw(amount+fee)
-        other.deposit(amount)
+    modifies Unit transfer(AccountImpl other, Int amount, Int fee) {
+        total = amount + fee;
+		if (this.balance < total) {
+			println("Transfer fails")
+		}
+		else {
+			this.balance = this.balance - total;
+			other.balance = this.balance + total;
+		}
     }
 }
