@@ -1,0 +1,40 @@
+module MCustomerModel;
+export *;
+
+interface Customer {
+	Unit setId(Int x); 
+	Int getId();
+	Unit setName(String name); 
+	String getName();
+	Unit setEmail(String email); 
+	String getEmail();
+	Unit setPhone(String phone); 
+	String getPhone();
+	Unit setAddress(String address); 
+	String getAddress();
+}
+
+class CustomerImpl implements Customer {
+
+	[PK]Int id = 0;
+	String name = "";
+	String email = "";
+	String phone = "";
+	String address = "";
+
+	Unit setId(Int x){ this.id = x;}
+	Int getId(){ return this.id;}
+
+	Unit setName(String name){ this.name = name; }
+	String getName(){ return this.name;}
+
+	Unit setEmail(String email){ this.email = email;}
+	String getEmail(){ return this.email; }
+
+	Unit setPhone(String phone){ this.phone = phone;}
+	String getPhone(){ return this.phone; }
+
+	Unit setAddress(String address){ this.address = address;}
+	String getAddress(){ return this.address; }
+	
+}
