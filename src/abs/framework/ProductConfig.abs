@@ -1,8 +1,14 @@
 productline Accounts;
-	features House, Fee, Overdraft, Check, Save, Type;
+	features House, Fee, Overdraft, Check, Save, Type, TransferIntraBank, 
+	TransferInterBank, TransferVirtualAccount, CreditCard;
+	
 	delta DType(Type.i) when Type;	
 	delta DFee(Fee.amount) when Fee;
 	delta DOverdraft after DCheck when Overdraft;
 	delta DSave(Type.i) after DType when Save;
 	delta DCheck after DType when Check;
 	delta DHouse when House;
+	delta DTransferIntraBank when TransferIntraBank;
+	delta DTransferInterBank when TransferInterBank;
+	delta DTransferVirtualAccount when TransferVirtualAccount;
+	delta DCreditCard when CreditCard;

@@ -7,7 +7,7 @@ root Account {
 			}
 			Int i;
 		},
-		TransferIntraBank // receiver and sender have same House bank
+		TransferIntraBank, // receiver and sender have same House bank
 		TransferInterBank { // receiver and sender have different House bank
 			group oneof {
 				Type1 {from in ["BRI", "BNI"] && to in ["BRI", "BNI"]},
@@ -16,9 +16,9 @@ root Account {
 			}
 			String from;
 			String to;
-		} 
-		opt TransferVirtualAccount
-		opt CreditCard
+		}, 
+		opt TransferVirtualAccount,
+		opt CreditCard,
 		opt Fee {Int amount in [0..5];},
 		opt Overdraft,
 		opt House	
