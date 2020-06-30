@@ -1,0 +1,82 @@
+module MCustomerService;
+export *;
+import Customer, CustomerImpl from MCustomerModel;
+import CustomerDb, CustomerDbImpl from MCustomerDbImpl;
+import ABSHttpRequest from ABS.Framework.Http;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+
+interface CustomerService
+{
+	List<Customer> list();
+	Customer create(String name, String email, String phone, String address);
+	Customer retrieve(String id);
+	Customer update(String id, String name, String email, String phone, String address);
+	Customer delete(String id);
+}
+
+class CustomerServiceImpl implements CustomerService
+{
+    List<Customer> list()
+	{
+		CustomerDb orm = new local CustomerDbImpl();
+
+		List<Customer> customers = orm.findAll("MCustomerModel.CustomerImpl_c");
+		
+		List<Customer> customer_list = Nil;
+
+		Int index = 0;
+		while(index < length(customers)) {
+			Customer p = nth(customers, index);
+			customer_list = appendright(customer_list, p);
+			index = index + 1;
+		}
+		return customer_list;
+	}
+
+	Customer create(String name, String email, String phone, String address){
+
+		CustomerDb orm = new local CustomerDbImpl();
+
+		Customer c = new local CustomerImpl();
+		c.setName(name);
+		c.setEmail(email);
+		c.setPhone(phone);
+		c.setAddress(address);
+		orm.save(c);
+		return c;
+	}
+
+	Customer retrieve(String id){ 
+
+		CustomerDb orm = new local CustomerDbImpl();
+		String condition = "id=" + id;
+		Customer c = orm.findByAttributes("MCustomerModel.CustomerImpl_c",condition);
+		return c;
+	}
+
+	Customer update(String id, String name, String email, String phone, String address){
+
+		CustomerDb orm = new local CustomerDbImpl();
+		String condition = "id=" + id;
+
+		Customer c = orm.findByAttributes("MCustomerModel.CustomerImpl_c",condition);
+
+		c.setName(name);
+		c.setEmail(email);
+		c.setPhone(phone);
+		c.setAddress(address);
+		orm.update(c);
+		return c;
+	}
+
+	Customer delete(String id){ 
+
+		CustomerDb orm = new local CustomerDbImpl();
+		String condition = "id=" + id;
+		Customer c = orm.findByAttributes("MCustomerModel.CustomerImpl_c",condition);
+		orm.delete(c);
+		return c;
+	}
+
+	
+}
