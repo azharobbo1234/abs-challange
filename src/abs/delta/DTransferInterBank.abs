@@ -2,7 +2,7 @@ delta DTransferInterBank;
 uses MAccountModel;
 
 modifies class AccountImpl {
-    adds transfer(AccountImpl other, Int amount) {
+    adds transferInter(AccountImpl other, Int amount) {
         withdraw(amount)
         other.deposit(amount)
     }
