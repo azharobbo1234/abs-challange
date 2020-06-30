@@ -1,3 +1,4 @@
+/*
 product CatalogOne (DisplayAllItem, GetById, FilterByCategory, CreateItem, DeleteItem);
 product CatalogMin (DisplayAllItem, GetById);
 product BrandCategoryCatalog (DisplayAllItem, GetById, FilterByBrand, FilterByCategory, CreateItem, DeleteItem);
@@ -9,3 +10,15 @@ product HipsterShop(DisplayAllItem, GetById, FilterByCategory, SearchItem);
 product SockShop(DisplayAllItem, FilterByCategory, GetById, FilterByTag);
 product SockOnContainer(DisplayAllItem, GetById, GetByName, FilterByBrand, FilterByCategory, SearchItem);
 product StanRobot(DisplayAllItem, GetById, FilterByCategory, SearchItem);
+*/
+
+// basic product
+product CheckingAccount (Type{i=0},Check);
+product SavingAccount (Type{i=5},Save);
+// Account with Fee and parameter
+product AccountWithFee (Type{i=0},Check,Fee{amount=1});
+// Account with overdraft
+product AccountWithOverdraft (Type{i=0},Check,Overdraft);
+// should be refused
+product SavingAccountWithOverdraft (Type{i=1},Save,Overdraft);
+product SelvyAccount(Type{i=0}, Save, Overdraft);
