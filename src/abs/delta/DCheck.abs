@@ -1,0 +1,7 @@
+delta DCheck;
+uses MAccountModel;
+
+modifies class AccountImpl {
+	removes Int interest;
+	adds Int interest = 0;	
+}

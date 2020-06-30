@@ -1,0 +1,6 @@
+delta DType (Int i);
+uses MAccountModel;
+
+modifies class AccountImpl {
+	adds Int interest = i;	
+}

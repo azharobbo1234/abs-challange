@@ -1,0 +1,7 @@
+delta DOverdraft;
+uses MAccountModel;
+modifies class AccountImpl {
+	modifies Int withdraw(Int y) { 
+		balance = balance - y; return balance;
+	}	
+}
