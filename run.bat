@@ -1,1 +1,1 @@
-java -jar "%~dp0\CompleteFilterCatalog.jar"
+java -jar "%~dp0\SavingAccount.jar"

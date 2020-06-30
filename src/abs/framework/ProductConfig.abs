@@ -1,51 +1,8 @@
-productline Catalog;
-    features DisplayCatalog, DisplayAllItem, FilterCatalog, FilterByBrand, FilterByCategory, FilterByTag, CatalogItem, GetById, GetByName, CreateItem, DeleteItem, SearchItem;
-
-delta DBrandCatalogModel when FilterByBrand;
-
-delta DTagCatalogModel when FilterByTag;
-
-delta DCreateItemCatalogEntity when CreateItem;
-delta DDeleteItemCatalogEntity when DeleteItem;
-delta DCreateWithCategoryCatalogEntity after DCreateItemCatalogEntity when FilterByCategory && CreateItem; 
-delta DCreateWithTagCatalogEntity after DCreateItemCatalogEntity when FilterByTag && CreateItem;
-delta DCreateWithBrandCatalogEntity after DCreateItemCatalogEntity when FilterByBrand && CreateItem;
-delta DTagCatalogEntity after DTagCatalogFilter when FilterByTag;
-delta DCategoriesCatalogEntity when FilterByCategory;
-delta DBrandCatalogEntity after DBrandCatalogFilter when FilterByBrand;
-delta DDetailNameCatalogEntity when GetByName;
-delta DSearchCatalogEntity when SearchItem;
-
-delta DTagCatalogFilter when FilterByTag;
-delta DCategoriesCatalogFilter when FilterByCategory;
-delta DBrandCatalogFilter after DBrandCatalogModel when FilterByBrand;
-
-delta DDeleteItemCatalogService when DeleteItem;
-delta DCreateItemCatalogService when CreateItem;
-delta DCreateWithTagCatalogService after DCreateItemCatalogService when CreateItem && FilterByTag;
-delta DCreateWithCategoryCatalogService after DCreateItemCatalogService when CreateItem && FilterByCategory;
-delta DCreateWithBrandCatalogService after DCreateItemCatalogService when CreateItem && FilterByBrand; 
-delta DSearchCatalogService when SearchItem;
-delta DTagCatalogService when FilterByTag;
-delta DCategoriesCatalogService when FilterByCategory;
-delta DBrandCatalogService when FilterByBrand;
-delta DDetailNameCatalogService when GetByName;
-delta DSearchBrandCatalogService after DSearchCatalogService when FilterByBrand && SearchItem;
-delta DSearchTagCatalogService after DSearchCatalogService when FilterByTag && SearchItem;
-delta DSearchCategoriesCatalogService after DSearchCatalogService when FilterByCategory && SearchItem;
-
-delta DDeleteItemCatalogResource when DeleteItem;
-delta DCreateItemCatalogResource when CreateItem;
-delta DTagCatalogResource when FilterByTag;
-delta DCategoriesCatalogResource when FilterByCategory;
-delta DBrandCatalogResource when FilterByBrand;
-delta DDetailNameCatalogResource when GetByName;
-delta DSearchCatalogResource when SearchItem;
-
-delta DTagCatalogRoute when FilterByTag;
-delta DCategoriesCatalogRoute when FilterByCategory;
-delta DBrandCatalogRoute when FilterByBrand;
-delta DDetailNameCatalogRoute when GetByName;
-delta DSearchCatalogRoute when SearchItem;
-delta DDeleteItemCatalogRoute when DeleteItem;
-delta DCreateItemCatalogRoute when CreateItem;
+productline Accounts;
+	features House, Fee, Overdraft, Check, Save, Type;
+	delta DType(Type.i) when Type;	
+	delta DFee(Fee.amount) when Fee;
+	delta DOverdraft after DCheck when Overdraft;
+	delta DSave(Type.i) after DType when Save;
+	delta DCheck after DType when Check;
+	delta DHouse when House;

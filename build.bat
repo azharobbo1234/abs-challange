@@ -1,1 +1,1 @@
-ant -buildfile "%~dp0\build.xml" -Dabsproduct=CompleteFilterCatalog abs.deploy
+ant -buildfile "%~dp0\build.xml" -Dabsproduct=SavingAccount abs.deploy
