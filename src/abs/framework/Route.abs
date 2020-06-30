@@ -1,187 +1,33 @@
-
 module ABS.Framework.Route;
 
 interface RouteConfig
 {
-    String route(String url);
-    
-    String routeCatalogFilterTag(String url);
-    String routeCatalogFilterCategory(String url);
-    String routeCatalogFilterBrand(String url);
-    String routeCatalog(String url);
-    String routeGetDetail(String url);
-    String routeSearchCatalog(String url);
-    String routeAllCatalog(String url);
-    String routeFilterCatalog(String url);
-    String routeCreateItemCatalog(String url);
-    String routeDeleteItemCatalog(String url);
+	String route(String url);
 }
 
-class RouteConfigImpl implements RouteConfig {
+class RouteConfigImpl implements RouteConfig
+{
+	String route(String url)
+	{
+		String result = case url
+		{
+		    // Service pages
+			"/customer/list.abs" => "MCustomerResource.CustomerResourceImpl@list";
+			"/customer/create.abs" => "manager,operator,selvy:MCustomerResource.CustomerResourceImpl@create";
+			"/customer/retrieve.abs" => "manager,operator,fitrian:MCustomerResource.CustomerResourceImpl@retrieve";
+			"/customer/update.abs" => "manager,operator:MCustomerResource.CustomerResourceImpl@update";
+			"/customer/delete.abs" => "manager:MCustomerResource.CustomerResourceImpl@delete";
 
-    String route(String url) {
-        
-        String category = this.getUrlLevelName(url, 1);
-        String subcategory = this.getUrlLevelName(url, 2);
-
-        String result = this.routeCatalog(url);
-
-        if (category == "catalog") {
-            
-            if (subcategory == "filter-by-tag"){
-                result = this.routeCatalogFilterTag(url);
-            }
-            
-            if (subcategory == "filter-by-category"){
-                result = this.routeCatalogFilterCategory(url);
-            }
-            
-            if (subcategory == "filter-by-brand" || subcategory == "filter-by-brand-type"){
-                result = this.routeCatalogFilterBrand(url);
-            }
-
-            if (subcategory == "get-by-id" || subcategory == "get-by-name"){
-                result = this.routeGetDetail(url);
-            }
-
-            if (subcategory == "search-item"){
-                result = this.routeSearchCatalog(url);
-            }
-
-            if (subcategory == "display-all-item"){
-                result = this.routeAllCatalog(url);
-            }
-
-            if (subcategory == "delete-item"){
-                result = this.routeDeleteItemCatalog(url);
-            }
-
-            if (subcategory == "create-item"){
-                result = this.routeCreateItemCatalog(url);
-            }
-             
-        }
-
-        return result;
-    }
-
-    String routeCatalog(String url){
-        String result = case url {
-            // CRUD Catalog
-            "/api/catalog/save.abs" => "MCatalogItemResource.CatalogItemResourceImpl@save";
-            "/api/catalog/edit.abs" => "MCatalogItemResource.CatalogItemResourceImpl@edit";
-            "/api/catalog/update.abs" => "MCatalogItemResource.CatalogItemResourceImpl@update";
-            "/api/catalog/delete.abs" => "MCatalogItemResource.CatalogItemResourceImpl@delete";
-
-            _ => "";
-        };
-        return result;
-    }
-
-    String routeCatalogFilterTag(String url) {
-        return "";
-    }
-
-    String routeCatalogFilterCategory(String url) {
-        return "";
-    }
-
-    String routeCatalogFilterBrand(String url) {
-        return "";
-    }
-
-    String routeFilterCatalog(String url){
-        return "";
-    }
-
-    String routeGetDetail(String url){
-        String result = case url {
-            // CRUD Catalog
-            "/api/catalog/get-by-id.abs" => "MCatalogItemResource.CatalogItemResourceImpl@detail";
-            _ => "";
-        };
-        return result;
-    }
-
-    String routeSearchCatalog(String url){
-        return "";
-    }
-
-    String routeAllCatalog(String url){
-         String result = case url {
-            
-            "/api/catalog/display-all-item.abs" => "MCatalogItemResource.CatalogItemResourceImpl@list";
-            _ => "";
-        };
-        return result;
-    }
-
-    String routeCreateItemCatalog(String url){
-        return "";
-    }
-
-    String routeDeleteItemCatalog(String url){
-
-        println("Delete Route");
-        return "";
-    }
-
-    String getCategory(String url) {
-        Int lenUrl = strlen(url);
-        String potong = substr(url,5,lenUrl-5);
-
-        Int stopIndex = 0;
-        Int lenPotong = strlen(potong);
-
-        Bool stop = False;
-
-        while (!stop) {
-            String chr = substr(potong, stopIndex, 1);
-            if (chr == "/") {
-                stop = True;
-            }
-
-            if (stopIndex > lenPotong-1) {
-                stop = True;
-            }
-
-            stopIndex = stopIndex + 1;
-        }
-
-        String category =  substr(potong,0,stopIndex-1);
-
-        return category;
-    }
-
-    String getUrlLevelName(String url, Int level) {
-        Int lenUrl = strlen(url);
-        String potong = substr(url,5,lenUrl-5); // truncate "/api/" prefix
-        potong = substr(potong,0,lenUrl-9); // truncate ".abs" suffix
-
-        Int loopCount = 0;
-        Int stopIndex = 0;
-        while (loopCount < level) {
-            Int lenPotong = strlen(potong);
-            potong = substr(potong,stopIndex,lenPotong-stopIndex); // truncate chars before "/" if loop continues
-            stopIndex = 0;
-            lenPotong = strlen(potong);
-
-            Bool stop = False;
-            while (!stop) {
-                String chr = substr(potong, stopIndex, 1);
-                if (chr == "/") {
-                    stop = True;
-                }
-                if (stopIndex == lenPotong-1) {
-                    stop = True;
-                    stopIndex = stopIndex + 1; // because it doesn't end at "/"
-                }
-                stopIndex = stopIndex + 1;
-            }
-            loopCount = loopCount + 1;
-        }
-
-        String levelName =  substr(potong,0,stopIndex-1);
-        return levelName;
-    }
+			"/account/list.abs" => "MAccountResource.AccountResourceImpl@list";
+			"/account/create.abs" => "manager,operator:MAccountResource.AccountResourceImpl@create";
+			"/account/retrieve.abs" => "manager,operator:MAccountResource.AccountResourceImpl@retrieve";
+			"/account/update.abs" => "manager,operator:MAccountResource.AccountResourceImpl@update";
+			"/account/delete.abs" => "manager,operator:MAccountResource.AccountResourceImpl@delete";
+			"/account/withdraw.abs" => "manager,operator:MAccountResource.AccountResourceImpl@withdraw";
+			"/account/deposit.abs" => "manager,operator:MAccountResource.AccountResourceImpl@deposit";
+			_ => "";
+		};
+		
+		return result;
+	}
 }
