@@ -1,9 +1,0 @@
-delta DTransferVirtualAccount;
-uses MAccountModel;
-
-modifies class AccountImpl {
-    adds transferVirtualAccount(AccountImpl virtual, Int amount) {
-        withdraw(amount)
-        virtual.deposit(amount)
-    }
-}

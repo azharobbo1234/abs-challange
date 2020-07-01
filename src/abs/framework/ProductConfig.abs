@@ -8,7 +8,4 @@ productline Accounts;
 	delta DSave(Type.i) after DType when Save;
 	delta DCheck after DType when Check;
 	delta DHouse when House;
-	delta DTransferIntraBank when TransferIntraBank;
-	delta DTransferInterBank when TransferInterBank;
-	delta DTransferVirtualAccount when TransferVirtualAccount;
-	delta DCreditCard when CreditCard;
+	

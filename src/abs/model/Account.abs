@@ -44,13 +44,4 @@ class AccountImpl implements Account {
 		return balance;
 	}	
 
-	Unit transfer(Account other, Int amount) {
-		if (this.balance < amount) {
-			println("Transfer fails")
-		}
-		else {
-			this.balance -= amount;
-			other.balance += amount;
-		}
-	}
 }
