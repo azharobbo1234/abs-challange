@@ -14,11 +14,15 @@ product StanRobot(DisplayAllItem, GetById, FilterByCategory, SearchItem);
 
 // valid
 
-// basic product with normal transfer
-product NormalAccount (Transfer{category=0}, Normal, Type{i=0}, Check);
+// produk dengan transfer intra
+product TransferIntra (Transfer{category=0}, TransferIntra, Type{i=0}, Check);
 
-// basic product with extended transfer
-product ExtendedAccount (Transfer{category=1}, Extend, Type{i=0}, Check);
+// produk dengan transfer inter
+product TransferInter (Transfer{category=1}, TransferInter, Type{i=0}, Check);
+
+// produk dengan transfer semua
+product TransferAll (Transfer{category=2}, TransferAll, Type{i=0}, Check);
+
 
 // not valid
 

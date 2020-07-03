@@ -9,6 +9,28 @@ class RouteConfigImpl implements RouteConfig
 {
 	String route(String url)
 	{
+		String delta_route = this.find(url);
+		String result = this.routeNormal(url);
+
+		if (delta_route == "/transfer-intra.abs") {
+			result = this.routeIntra(url);
+		} 
+		else if (delta_route == "/transfer-inter.abs") {
+			result = this.routeInter(url);
+		}
+		
+		return result;
+	}
+
+	String routeInter(String url) {
+		return "";
+	}
+
+	String routeIntra(String url) {
+		return "";
+	}
+
+	String routeNormal(String url) {
 		String result = case url
 		{
 		    // Service pages
@@ -25,7 +47,6 @@ class RouteConfigImpl implements RouteConfig
 			"/account/delete.abs" => "MAccountResource.AccountResourceImpl@delete";
 			"/account/withdraw.abs" => "MAccountResource.AccountResourceImpl@withdraw";
 			"/account/deposit.abs" => "MAccountResource.AccountResourceImpl@deposit";
-			"/account/transfer.abs" => "MAccountResource.AccountResourceImpl@transfer";
 
 			"/commerce/list.abs" => "MCommerceResource.CommerceResourceImpl@list";
 			"/commerce/create.abs" => "MCommerceResource.CommerceResourceImpl@create";
@@ -34,7 +55,24 @@ class RouteConfigImpl implements RouteConfig
 			"/commerce/delete.abs" => "MCommerceResource.CommerceResourceImpl@delete";
 			_ => "";
 		};
-		
+		return result;
+	}
+
+	String find(String url) {
+		Int index = strlen(url) - 1;
+		Int count = 1;
+		Bool start = True;
+		while (start) {
+			String url_char = substr(url, index, 1);
+			if (url_char == "/") {
+				start = False;
+			} else {
+				index = index - 1;
+				count = count + 1;
+			}
+		}
+		String result = substr(url, index, count);
+		println(result);
 		return result;
 	}
 }

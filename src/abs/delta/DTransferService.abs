@@ -2,8 +2,6 @@ delta DTransferService;
 uses MAccountService;
 
 modifies interface AccountService {
-    adds Unit transfer(String sender_id, String receiver_id, Int amount);
-    
     removes Account create(Int balance, String rekening, Int customerId);
     adds Account create(Int balance, String rekening, Int customerId, Int bankId);
 
@@ -12,26 +10,6 @@ modifies interface AccountService {
 }
 
 modifies class AccountServiceImpl {
-    adds Unit transfer(String sender_id, String receiver_id, Int amount) {
-
-        AccountDb orm = new local AccountDbImpl();
-		String sender_condition = "id=" + sender_id;
-        String receiver_condition = "id=" + receiver_id;
-
-        Account sender = orm.findByAttributes("MAccountModel.AccountImpl_c", sender_condition);
-        Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
-
-        Int senderBankId = sender.getBankId();
-        Int receiverBankId = receiver.getBankId();
-
-        if (senderBankId == receiverBankId) {
-            sender.withdraw(amount);
-            orm.update(sender);
-            receiver.deposit(amount);
-            orm.update(receiver);
-        }
-    }
-
     removes Account create(Int balance, String rekening, Int customerId);
     adds Account create(Int balance, String rekening, Int customerId, Int bankId){
 

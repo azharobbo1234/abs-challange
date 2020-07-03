@@ -2,10 +2,11 @@ root Account {
 	group allof { 
 		Transfer {
 			group oneof {
-				Normal {ifin: Transfer.category == 0;},
-				Extend {ifin: Transfer.category > 0;}
+				TransferIntra {ifin: Transfer.category == 0;},
+				TransferInter {ifin: Transfer.category == 1;},
+				TransferAll {ifin: Transfer.category == 2;}
 			}
-			Int category in [0..1];
+			Int category in [0..2];
 		},
 		Type {
 			group oneof {	

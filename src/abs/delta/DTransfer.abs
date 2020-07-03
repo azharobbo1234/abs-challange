@@ -7,7 +7,7 @@ modifies interface Account {
 }
 
 modifies class AccountImpl {
-    adds Int bankId = 1;
+    adds Int bankId = 0;
 
     adds Int getBankId() {
         return this.bankId;

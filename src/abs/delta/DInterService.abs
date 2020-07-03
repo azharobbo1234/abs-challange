@@ -1,0 +1,36 @@
+delta DInterService;
+uses MAccountService;
+
+modifies interface AccountService {
+    adds Unit transferInter(String sender_id, String receiver_id, Int amount);
+}
+
+modifies class AccountServiceImpl {
+    adds Unit transferInter(String sender_id, String receiver_id, Int amount) {
+
+        AccountDb orm = new local AccountDbImpl();
+		String sender_condition = "id=" + sender_id;
+        String receiver_condition = "id=" + receiver_id;
+
+        Account sender = orm.findByAttributes("MAccountModel.AccountImpl_c", sender_condition);
+        Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
+
+        Int senderBankId = sender.getBankId();
+        Int receiverBankId = receiver.getBankId();
+
+        Int penalty = 0;
+
+        if (senderBankId == 1){
+            penalty = 1;
+        } else if (senderBankId == 2) {
+            penalty = 2;
+        } else {
+            penalty = 3;
+        }
+
+        sender.withdraw(amount + penalty);
+        orm.update(sender);
+        receiver.deposit(amount);
+        orm.update(receiver);
+    }
+}

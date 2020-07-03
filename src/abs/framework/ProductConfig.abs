@@ -1,5 +1,6 @@
 productline Accounts;
-	features Fee, Overdraft, Check, Save, Type, Transfer, Extend, Normal;
+	features Fee, Overdraft, Check, Save, Type, Transfer, TransferIntra, 
+	TransferInter, TransferAll;
 	
 	delta DType(Type.i) when Type;	
 	delta DFee(Fee.amount) when Fee;
@@ -7,10 +8,18 @@ productline Accounts;
 	delta DSave(Type.i) after DType when Save;
 	delta DCheck after DType when Check;
 	
+	// delta untuk transfer
 	delta DTransfer when Transfer;
-
-	delta DTransferResource after DTransfer when Transfer;
 	delta DTransferService after DTransfer when Transfer;
+	delta DTransferResource after DTransferService when Transfer;
 
-	delta DTransferServiceExtend after DTransferService when Extend;
+	// delta untuk transfer intra
+	delta DIntraService after DTransfer when TransferIntra || TransferAll;
+	delta DIntraResource after DIntraService when TransferIntra || TransferAll;
+	delta DIntraRoute after DIntraResource when TransferIntra || TransferAll;
+
+	// delta untuk transfer inter
+	delta DInterService after DTransfer when TransferInter || TransferAll;
+	delta DInterResource after DInterService when TransferInter || TransferAll;
+	delta DInterRoute after DInterResource when TransferInter || TransferAll;
 	
