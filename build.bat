@@ -1,1 +1,1 @@
-ant -buildfile "%~dp0\build.xml" -Dabsproduct=SavingAccount abs.deploy
+ant -buildfile "%~dp0\build.xml" -Dabsproduct=CheckingAccount abs.deploy

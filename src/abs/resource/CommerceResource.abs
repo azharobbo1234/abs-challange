@@ -1,0 +1,74 @@
+module MCommerceResource;
+import Commerce, CommerceImpl from MCommerceModel;
+import CommerceDb, CommerceDbImpl from MCommerceDbImpl;
+import ABSHttpRequest from ABS.Framework.Http;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+import CommerceService, CommerceServiceImpl from MCommerceService;
+
+interface CommerceResource
+{
+	List<Commerce> list(ABSHttpRequest request);
+	Commerce retrieve(ABSHttpRequest request);
+	Commerce update(ABSHttpRequest request);
+	Commerce create(ABSHttpRequest request);
+	Unit delete(ABSHttpRequest request);
+}
+
+class CommerceResourceImpl implements CommerceResource
+{
+    List<Commerce> list(ABSHttpRequest request)
+	{
+		CommerceService commerceService = new local CommerceServiceImpl();
+		List<Commerce> dataModel = commerceService.list();
+		return dataModel;
+	}
+
+	Commerce retrieve(ABSHttpRequest request)
+	{
+		
+		CommerceService commerceService = new local CommerceServiceImpl();
+		String id = request.getInput("id");
+		Commerce c = commerceService.retrieve(id);
+		return c;
+	}
+
+	
+	Commerce create(ABSHttpRequest request)
+	{ 
+		CommerceService commerceService = new local CommerceServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+        String name = request.getInput("name");
+		String balanceStr = request.getInput("balance");
+        Int balance = utility.stringToInteger(balanceStr);
+		String code = request.getInput("code");
+
+		Commerce c = commerceService.create(name,balance,code);
+
+		return c;
+	}
+
+	Commerce update(ABSHttpRequest request)
+	{ 
+		CommerceService commerceService = new local CommerceServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String id = request.getInput("id");
+		String name = request.getInput("name");
+        String balanceStr = request.getInput("balance");
+        Int balance = utility.stringToInteger(balanceStr);
+		String code = request.getInput("code");
+
+		Commerce c = commerceService.update(id,name,balance,code);
+
+		return c;
+	}
+
+	Unit delete(ABSHttpRequest request)
+	{ 
+		CommerceService commerceService = new local CommerceServiceImpl();
+
+		String id = request.getInput("id");
+		commerceService.delete(id);
+	}
+}

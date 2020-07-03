@@ -12,13 +12,19 @@ product SockOnContainer(DisplayAllItem, GetById, GetByName, FilterByBrand, Filte
 product StanRobot(DisplayAllItem, GetById, FilterByCategory, SearchItem);
 */
 
-// basic product
-product CheckingAccount (Type{i=0},Check);
-product SavingAccount (Type{i=5},Save);
+// valid
+
+// basic product with normal transfer
+product NormalAccount (Transfer{category=0}, Normal, Type{i=0}, Check);
+
+// basic product with extended transfer
+product ExtendedAccount (Transfer{category=1}, Extend, Type{i=0}, Check);
+
+// not valid
+
 // Account with Fee and parameter
-product AccountWithFee (Type{i=0},Check,Fee{amount=1});
+// product AccountWithFee (Transfer,Type{i=0},Check,Fee{amount=1});
 // Account with overdraft
-product AccountWithOverdraft (Type{i=0},Check,Overdraft);
+// product AccountWithOverdraft (Transfer,Type{i=0},Check,Overdraft);
 // should be refused
-product SavingAccountWithOverdraft (Type{i=1},Save,Overdraft);
-product SelvyAccount(Type{i=0}, Save, Overdraft);
+// product SavingAccountWithOverdraft (Transfer,Type{i=1},Save,Overdraft);

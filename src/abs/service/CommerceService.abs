@@ -1,0 +1,80 @@
+module MCommerceService;
+export *;
+import Commerce, CommerceImpl from MCommerceModel;
+import CommerceDb, CommerceDbImpl from MCommerceDbImpl;
+import ABSHttpRequest from ABS.Framework.Http;
+import Utility, UtilityImpl from ABS.Framework.Utility;
+
+interface CommerceService
+{
+	List<Commerce> list();
+	Commerce create(String name, Int balance, String code);
+	Commerce retrieve(String id);
+	Commerce update(String id, String name, Int balance, String code);
+	Commerce delete(String id);
+}
+
+class CommerceServiceImpl implements CommerceService
+{
+    List<Commerce> list()
+	{
+		CommerceDb orm = new local CommerceDbImpl();
+
+		List<Commerce> commerces = orm.findAll("MCommerceModel.CommerceImpl_c");
+		
+		List<Commerce> commerce_list = Nil;
+
+		Int index = 0;
+		while(index < length(commerces)) {
+			Commerce p = nth(commerces, index);
+			commerce_list = appendright(commerce_list, p);
+			index = index + 1;
+		}
+		return commerce_list;
+	}
+
+	Commerce create(String name, Int balance, String code){
+
+		CommerceDb orm = new local CommerceDbImpl();
+
+		Commerce c = new local CommerceImpl();
+		c.setName(name);
+        c.setBalance(balance);
+        c.setCode(code);
+		orm.save(c);
+		return c;
+	}
+
+	Commerce retrieve(String id){ 
+
+		CommerceDb orm = new local CommerceDbImpl();
+		String condition = "id=" + id;
+		Commerce c = orm.findByAttributes("MCommerceModel.CommerceImpl_c",condition);
+		return c;
+	}
+
+	Commerce update(String id, String name, Int balance, String code){
+
+		CommerceDb orm = new local CommerceDbImpl();
+		String condition = "id=" + id;
+
+		Commerce c = orm.findByAttributes("MCommerceModel.CommerceImpl_c",condition);
+
+		c.setName(name);
+		c.setBalance(balance);
+        c.setCode(code);
+		orm.update(c);
+		return c;
+	}
+
+	Commerce delete(String id){ 
+
+		CommerceDb orm = new local CommerceDbImpl();
+		String condition = "id=" + id;
+		Commerce c = orm.findByAttributes("MCommerceModel.CommerceImpl_c",condition);
+		orm.delete(c);
+		return c;
+	}
+
+	
+}

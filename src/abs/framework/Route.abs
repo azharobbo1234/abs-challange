@@ -13,18 +13,25 @@ class RouteConfigImpl implements RouteConfig
 		{
 		    // Service pages
 			"/customer/list.abs" => "MCustomerResource.CustomerResourceImpl@list";
-			"/customer/create.abs" => "manager,operator,selvy:MCustomerResource.CustomerResourceImpl@create";
-			"/customer/retrieve.abs" => "manager,operator,fitrian:MCustomerResource.CustomerResourceImpl@retrieve";
-			"/customer/update.abs" => "manager,operator:MCustomerResource.CustomerResourceImpl@update";
-			"/customer/delete.abs" => "manager:MCustomerResource.CustomerResourceImpl@delete";
+			"/customer/create.abs" => "MCustomerResource.CustomerResourceImpl@create";
+			"/customer/retrieve.abs" => "MCustomerResource.CustomerResourceImpl@retrieve";
+			"/customer/update.abs" => "MCustomerResource.CustomerResourceImpl@update";
+			"/customer/delete.abs" => "MCustomerResource.CustomerResourceImpl@delete";
 
 			"/account/list.abs" => "MAccountResource.AccountResourceImpl@list";
-			"/account/create.abs" => "manager,operator:MAccountResource.AccountResourceImpl@create";
-			"/account/retrieve.abs" => "manager,operator:MAccountResource.AccountResourceImpl@retrieve";
-			"/account/update.abs" => "manager,operator:MAccountResource.AccountResourceImpl@update";
-			"/account/delete.abs" => "manager,operator:MAccountResource.AccountResourceImpl@delete";
-			"/account/withdraw.abs" => "manager,operator:MAccountResource.AccountResourceImpl@withdraw";
-			"/account/deposit.abs" => "manager,operator:MAccountResource.AccountResourceImpl@deposit";
+			"/account/create.abs" => "MAccountResource.AccountResourceImpl@create";
+			"/account/retrieve.abs" => "MAccountResource.AccountResourceImpl@retrieve";
+			"/account/update.abs" => "MAccountResource.AccountResourceImpl@update";
+			"/account/delete.abs" => "MAccountResource.AccountResourceImpl@delete";
+			"/account/withdraw.abs" => "MAccountResource.AccountResourceImpl@withdraw";
+			"/account/deposit.abs" => "MAccountResource.AccountResourceImpl@deposit";
+			"/account/transfer.abs" => "MAccountResource.AccountResourceImpl@transfer";
+
+			"/commerce/list.abs" => "MCommerceResource.CommerceResourceImpl@list";
+			"/commerce/create.abs" => "MCommerceResource.CommerceResourceImpl@create";
+			"/commerce/retrieve.abs" => "MCommerceResource.CommerceResourceImpl@retrieve";
+			"/commerce/update.abs" => "MCommerceResource.CommerceResourceImpl@update";
+			"/commerce/delete.abs" => "MCommerceResource.CommerceResourceImpl@delete";
 			_ => "";
 		};
 		

@@ -1,0 +1,52 @@
+module MCommerceModel;
+export *;
+
+interface Commerce {
+
+    // setter
+    Unit setId(Int value); 
+	Unit setName(String value); 
+    Unit setBalance(Int value); 
+    Unit setCode(String value); 
+
+    // getter
+    Int getId();
+    String getName();
+    Int getBalance();
+	String getCode();
+}
+
+class CommerceImpl implements Commerce {
+
+    [PK] Int id = 0;
+    String name = "";
+    Int balance = 0;
+    String code = "";
+
+    // setter
+    Unit setId(Int value) {
+        this.id = value;
+    }
+    Unit setName(String value) {
+        this.name = value;
+    }
+    Unit setBalance(Int value) {
+        this.balance = value;
+    }
+    Unit setCode(String value) {
+        this.code = value;
+    }
+    // getter
+    Int getId() {
+        return this.id;
+    }
+    String getName() {
+        return this.name;
+    }
+    Int getBalance() {
+        return this.balance;
+    }
+    String getCode() {
+        return this.code;
+    }
+}

@@ -1,1 +1,1 @@
-java -jar "%~dp0\SavingAccount.jar"
+java -jar "%~dp0\CheckingAccount.jar"

@@ -1,0 +1,19 @@
+delta DTransfer;
+uses MAccountModel;
+
+modifies interface Account {
+    adds Int getBankId();
+    adds Unit setBankId(Int value);
+}
+
+modifies class AccountImpl {
+    adds Int bankId = 1;
+
+    adds Int getBankId() {
+        return this.bankId;
+    }
+
+    adds Unit setBankId(Int value) {
+        this.bankId = value;
+    }
+}

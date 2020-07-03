@@ -1,5 +1,12 @@
 root Account {
 	group allof { 
+		Transfer {
+			group oneof {
+				Normal {ifin: Transfer.category == 0;},
+				Extend {ifin: Transfer.category > 0;}
+			}
+			Int category in [0..1];
+		},
 		Type {
 			group oneof {	
 				Check {ifin: Type.i == 0;},
@@ -8,8 +15,6 @@ root Account {
 			Int i;
 		},
 		opt Fee {Int amount in [0..5];},
-		opt Overdraft,
-		opt House	
-
+		opt Overdraft
 	}
 }

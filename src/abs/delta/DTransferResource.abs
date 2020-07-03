@@ -1,0 +1,65 @@
+delta DTransferResource;
+uses MAccountResource;
+
+modifies interface AccountResource {
+    adds Unit transfer(ABSHttpRequest request);
+}
+
+modifies class AccountResourceImpl {
+    adds Unit transfer(ABSHttpRequest request) {
+        AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+        String sender_id = request.getInput("sender_id");
+        String receiver_id = request.getInput("receiver_id");
+
+        String amount_str = request.getInput("amount");
+        Int amount_int = utility.stringToInteger(amount_str);
+
+        accountService.transfer(sender_id, receiver_id, amount_int);
+    }
+
+	modifies Account create(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String b = request.getInput("balance");
+		Int balance = utility.stringToInteger(b);
+
+		String rekening = request.getInput("rekening");
+
+		String cId = request.getInput("customerId");
+		Int customerId = utility.stringToInteger(cId);
+
+		String bankIdString = request.getInput("bankId");
+        Int bankIdInt = utility.stringToInteger(bankIdString);
+
+		Account acc = accountService.create(balance,rekening,customerId, bankIdInt);
+
+		return acc;
+	}
+
+    modifies Account update(ABSHttpRequest request)
+	{ 
+		AccountService accountService = new local AccountServiceImpl();
+		Utility utility = new local UtilityImpl();
+
+		String id = request.getInput("id");
+
+		String b = request.getInput("balance");
+		Int balance = utility.stringToInteger(b);
+
+		String rekening = request.getInput("rekening");
+
+		String cId = request.getInput("customerId");
+		Int customerId = utility.stringToInteger(cId);
+
+        String bankIdString = request.getInput("bankId");
+        Int bankIdInt = utility.stringToInteger(bankIdString);
+
+		Account acc = accountService.update(id,balance,rekening,customerId,bankIdInt);
+
+		return acc;
+	}
+}
