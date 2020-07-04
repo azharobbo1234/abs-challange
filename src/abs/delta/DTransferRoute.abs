@@ -1,0 +1,15 @@
+delta DTransferRoute;
+uses ABS.Framework.Route;
+
+modifies class RouteConfigImpl {
+
+    modifies String routeTransfer(String url) {
+
+		String result = case url {
+            "/account/transfer.abs" => "MAccountResource.AccountResourceImpl@transfer";
+            _ => "";
+        };
+
+        return result;
+    }
+}

@@ -16,8 +16,6 @@ modifies class AccountServiceImpl {
         Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
 
         Int senderBankId = sender.getBankId();
-        Int receiverBankId = receiver.getBankId();
-
         Int penalty = 0;
 
         if (senderBankId == 1){

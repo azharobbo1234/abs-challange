@@ -1,7 +1,43 @@
 delta DTransferResource;
 uses MAccountResource;
 
+modifies interface AccountResource {
+    adds Unit transfer(ABSHttpRequest request);
+	adds Unit transferIntra(String sender_id, String rekening, Int amount);
+	adds Unit transferInter(String sender_id, String rekening, Int amount);
+}
+
 modifies class AccountResourceImpl {
+	adds Unit transferIntra(String sender_id, String rekening, Int amount) {}
+	adds Unit transferInter(String sender_id, String rekening, Int amount) {}
+
+	adds Unit transfer(ABSHttpRequest request) {
+		AccountDb orm = new local AccountDbImpl();
+		Utility utility = new local UtilityImpl();
+
+        String sender_id = request.getInput("sender_id");
+		String sender_condition = "id=" + sender_id;
+
+        String rekening = request.getInput("rekening");
+		String receiver_condition = "rekening=" + rekening;
+
+        String amount_str = request.getInput("amount");
+        Int amount_int = utility.stringToInteger(amount_str);
+
+		Account sender = orm.findByAttributes("MAccountModel.AccountImpl_c", sender_condition);
+		Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
+
+		Int sender_bank = sender.getBankId();
+		Int receiver_bank = receiver.getBankId();
+
+		if (sender_bank == receiver_bank) {
+			this.transferIntra(sender_id, rekening, amount_int);
+		} 
+		else if (sender_bank != receiver_bank) {
+			this.transferInter(sender_id, rekening, amount_int);
+		}
+    }
+
 	modifies Account create(ABSHttpRequest request)
 	{ 
 		AccountService accountService = new local AccountServiceImpl();

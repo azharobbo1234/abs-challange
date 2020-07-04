@@ -12,14 +12,13 @@ productline Accounts;
 	delta DTransfer when Transfer;
 	delta DTransferService after DTransfer when Transfer;
 	delta DTransferResource after DTransferService when Transfer;
+	delta DTransferRoute after DTransferResource when Transfer;
 
 	// delta untuk transfer intra
 	delta DIntraService after DTransfer when TransferIntra || TransferAll;
 	delta DIntraResource after DIntraService when TransferIntra || TransferAll;
-	delta DIntraRoute after DIntraResource when TransferIntra || TransferAll;
 
 	// delta untuk transfer inter
 	delta DInterService after DTransfer when TransferInter || TransferAll;
 	delta DInterResource after DInterService when TransferInter || TransferAll;
-	delta DInterRoute after DInterResource when TransferInter || TransferAll;
 	

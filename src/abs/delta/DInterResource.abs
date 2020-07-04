@@ -1,22 +1,9 @@
 delta DInterResource;
 uses MAccountResource;
 
-modifies interface AccountResource {
-    adds Unit transferInter(ABSHttpRequest request);
-}
-
 modifies class AccountResourceImpl {
-    adds Unit transferInter(ABSHttpRequest request) {
+    modifies Unit transferInter(String sender_id, String rekening, Int amount) {
         AccountService accountService = new local AccountServiceImpl();
-		Utility utility = new local UtilityImpl();
-
-        String sender_id = request.getInput("sender_id");
-
-        String rekening = request.getInput("rekening");
-
-        String amount_str = request.getInput("amount");
-        Int amount_int = utility.stringToInteger(amount_str);
-
-        accountService.transferInter(sender_id, rekening, amount_int);
+        accountService.transferInter(sender_id, rekening, amount);
     }
 }

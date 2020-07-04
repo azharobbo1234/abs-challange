@@ -12,21 +12,14 @@ class RouteConfigImpl implements RouteConfig
 		String delta_route = this.find(url);
 		String result = this.routeNormal(url);
 
-		if (delta_route == "/transfer-intra.abs") {
-			result = this.routeIntra(url);
+		if (delta_route == "/transfer.abs") {
+			result = this.routeTransfer(url);
 		} 
-		else if (delta_route == "/transfer-inter.abs") {
-			result = this.routeInter(url);
-		}
 		
 		return result;
 	}
 
-	String routeInter(String url) {
-		return "";
-	}
-
-	String routeIntra(String url) {
+	String routeTransfer(String url) {
 		return "";
 	}
 
