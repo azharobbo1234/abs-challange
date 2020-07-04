@@ -2,22 +2,30 @@ delta DIntraService;
 uses MAccountService;
 
 modifies interface AccountService {
-    adds Unit transferIntra(String sender_id, String receiver_id, Int amount);
+    adds Unit transferIntra(String sender_id, String rekening, Int amount);
 }
 
 modifies class AccountServiceImpl {
-    adds Unit transferIntra(String sender_id, String receiver_id, Int amount) {
+    adds Unit transferIntra(String sender_id, String rekening, Int amount) {
 
         AccountDb orm = new local AccountDbImpl();
 		String sender_condition = "id=" + sender_id;
-        String receiver_condition = "id=" + receiver_id;
+        String receiver_condition = "rekening=" + rekening;
 
         Account sender = orm.findByAttributes("MAccountModel.AccountImpl_c", sender_condition);
         Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
 
-        sender.withdraw(amount);
+        Int sender_balance = sender.getBalance();
+        Int receiver_balance = receiver.getBalance();
+        sender_balance = sender_balance - amount;
+        receiver_balance = receiver_balance + amount;
+        sender.setBalance(sender_balance);
+        receiver.setBalance(receiver_balance);
+
+        String sender_balance_str = toString(sender_balance);
+        String receiver_balance_str = toString(receiver_balance);
+
         orm.update(sender);
-        receiver.deposit(amount);
         orm.update(receiver);
     }
 }

@@ -9,11 +9,11 @@ interface Account {
 	Int getId();
 	Int getBalance(); 
 	Int getCustomerId();
-	String getRekening();
+	Int getRekening();
 
 	Unit setId(Int id);
 	Unit setBalance(Int balance);
-	Unit setRekening(String rekening);
+	Unit setRekening(Int rekening);
 	Unit setCustomerId(Int customerId);
 
 }
@@ -21,17 +21,17 @@ interface Account {
 class AccountImpl implements Account {
 	[PK]Int id = 0;
 	Int balance = 0;
-	String rekening = "";
+	Int rekening = 0;
 	Int customerId = 0;
 
 	Unit setId(Int x){ this.id = x;}
 	Unit setBalance(Int x){ this.balance = x;}
-	Unit setRekening(String rekening){ this.rekening = rekening;}
+	Unit setRekening(Int rekening){ this.rekening = rekening;}
 	Unit setCustomerId(Int customerId){ this.customerId = customerId; }
 
 	Int getId(){ return this.id;}
 	Int getBalance(){ return this.balance; }
-	String getRekening(){ return this.rekening; }
+	Int getRekening(){ return this.rekening; }
 	Int getCustomerId(){ return this.customerId; }
 
 	Int deposit(Int x){ 

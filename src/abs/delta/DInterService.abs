@@ -2,15 +2,15 @@ delta DInterService;
 uses MAccountService;
 
 modifies interface AccountService {
-    adds Unit transferInter(String sender_id, String receiver_id, Int amount);
+    adds Unit transferInter(String sender_id, String rekening, Int amount);
 }
 
 modifies class AccountServiceImpl {
-    adds Unit transferInter(String sender_id, String receiver_id, Int amount) {
+    adds Unit transferInter(String sender_id, String rekening, Int amount) {
 
         AccountDb orm = new local AccountDbImpl();
 		String sender_condition = "id=" + sender_id;
-        String receiver_condition = "id=" + receiver_id;
+        String receiver_condition = "rekening=" + rekening;
 
         Account sender = orm.findByAttributes("MAccountModel.AccountImpl_c", sender_condition);
         Account receiver = orm.findByAttributes("MAccountModel.AccountImpl_c", receiver_condition);
@@ -28,9 +28,13 @@ modifies class AccountServiceImpl {
             penalty = 3;
         }
 
-        sender.withdraw(amount + penalty);
+        Int sender_balance = sender.getBalance();
+        Int receiver_balance = receiver.getBalance();
+        
+        sender.setBalance(sender_balance - (amount + penalty));
+        receiver.setBalance(receiver_balance + amount);
+
         orm.update(sender);
-        receiver.deposit(amount);
         orm.update(receiver);
     }
 }

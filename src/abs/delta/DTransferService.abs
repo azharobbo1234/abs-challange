@@ -2,16 +2,16 @@ delta DTransferService;
 uses MAccountService;
 
 modifies interface AccountService {
-    removes Account create(Int balance, String rekening, Int customerId);
-    adds Account create(Int balance, String rekening, Int customerId, Int bankId);
+    removes Account create(Int balance, Int rekening, Int customerId);
+    adds Account create(Int balance, Int rekening, Int customerId, Int bankId);
 
-    removes Account update(String id, Int balance, String rekening, Int customerId);
-    adds Account update(String id, Int balance, String rekening, Int customerId, Int bankId);
+    removes Account update(String id, Int balance, Int rekening, Int customerId);
+    adds Account update(String id, Int balance, Int rekening, Int customerId, Int bankId);
 }
 
 modifies class AccountServiceImpl {
-    removes Account create(Int balance, String rekening, Int customerId);
-    adds Account create(Int balance, String rekening, Int customerId, Int bankId){
+    removes Account create(Int balance, Int rekening, Int customerId);
+    adds Account create(Int balance, Int rekening, Int customerId, Int bankId){
 
 		AccountDb orm = new local AccountDbImpl();
 
@@ -24,8 +24,8 @@ modifies class AccountServiceImpl {
 		return a;
 	}
 
-    removes Account update(String id, Int balance, String rekening, Int customerId);
-    adds Account update(String id, Int balance, String rekening, Int customerId, Int bankId){
+    removes Account update(String id, Int balance, Int rekening, Int customerId);
+    adds Account update(String id, Int balance, Int rekening, Int customerId, Int bankId){
 
 		AccountDb orm = new local AccountDbImpl();
 		String condition = "id=" + id;

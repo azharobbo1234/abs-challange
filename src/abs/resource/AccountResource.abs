@@ -31,7 +31,8 @@ class AccountResourceImpl implements AccountResource
 		String b = request.getInput("balance");
 		Int balance = utility.stringToInteger(b);
 
-		String rekening = request.getInput("rekening");
+		String rekening_str = request.getInput("rekening");
+		Int rekening_str = utility.stringToInteger(rekening_str);
 
 		String cId = request.getInput("customerId");
 		Int customerId = utility.stringToInteger(cId);
@@ -61,7 +62,8 @@ class AccountResourceImpl implements AccountResource
 		String b = request.getInput("balance");
 		Int balance = utility.stringToInteger(b);
 
-		String rekening = request.getInput("rekening");
+		String rekening_str = request.getInput("rekening");
+		Int rekening = utility.stringToInteger(rekening_str);
 
 		String cId = request.getInput("customerId");
 		Int customerId = utility.stringToInteger(cId);

@@ -72,7 +72,6 @@ class RouteConfigImpl implements RouteConfig
 			}
 		}
 		String result = substr(url, index, count);
-		println(result);
 		return result;
 	}
 }
